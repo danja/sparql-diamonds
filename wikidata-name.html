@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Wikidata things named 'Knot'</title>
+
+    <script src="lib/jquery-3.6.0.min.js"></script>
+
+    <!-- mustache template compiler -->
+    <script src="lib/hogan-3.0.2.js"></script>
+
+    <!-- time format utils -->
+    <script src="lib/moment.js"></script>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/sparql-connector.js"></script>
+
+    <script src="sparql-templates/bookmarks-common.js"></script>
+    <script src="sparql-templates/list-bookmarks.js"></script>
+
+    <script type="text/javascript" language="javascript">
+
+      var wikidataKnotSparql =
+        '\n\
+         PREFIX schema: <http://schema.org/>  \n\
+         \n\
+         SELECT DISTINCT ?target WHERE { \n\
+         \n\
+         ?target schema:name "Knot"@en . \n\
+      }'
+
+      var wikidataKnotHTMLTemplate = "";
+
+      function formatRow (entry) {
+        // content,
+        //  entry.uri = "page.html?uri=" + entry.uri;
+        entry.modified = moment(entry.modified).format(
+          'dddd, MMMM Do YYYY, h:mm:ss a'
+        )
+        var row = templater(rowTemplate, entry)
+        return row
+      }
+
+      function makeEntryListHTML (entryArray) {
+        var rows = ''
+        //  var entryArray = sparqlXMLtoJSON(xml);
+
+        for (var i = 0; i < entryArray.length; i++) {
+          rows += formatRow(entryArray[i])
+        }
+        return rows
+      }
+
+      var queryUrl =
+        SparqlServer.host +
+        SparqlServer.queryPath +
+        '?query=' +
+        encodeURIComponent(listBookmarksSparqlTemplate) +
+        '&output=xml'
+
+      $(function () {
+
+        var doneCallback = function (json) {
+          console.log('RESULT = ' + JSON.stringify(json))
+          var rows = makeEntryListHTML(json)
+          $('#entries').replaceWith(rows)
+          //        setupTagsPanel('#tagsPanelTagsContainer')
+        }
+
+        // does ajax and conversts results xml-json
+        getJsonForSparqlURL(queryUrl, doneCallback)
+      })
+    </script>
+  </head>
+
+  <body>
+    Such things in Wikidata
+    <table>
+      <tr id="targets"></tr>
+    </table>
+  </body>
+</html>

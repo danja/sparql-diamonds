@@ -1,0 +1,18 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc:   <http://purl.org/dc/terms/> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix x:     <http://purl.org/stuff/> .
+
+<http://hyperdata.org/bookmarks/b1>
+      a x:Bookmark ;
+      x:url <https://en.wikipedia.org/wiki/Exquisite_corpse> ;
+      dc:created "2012-04-17T16:06:30Z" ;
+      dc:title "Exquisite Corpse" ;
+      dc:description "Wikipedia page on a surrealist game" ;
+      foaf:maker
+            [ foaf:nick "danja"] ; 
+      x:tag "surrealism" ;
+      x:tag "art" ;
+      x:tag "game" .      
+            

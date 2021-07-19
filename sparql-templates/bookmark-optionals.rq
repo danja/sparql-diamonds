@@ -1,0 +1,16 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+PREFIX dc:   <http://xmlns.com/foaf/0.1/> 
+PREFIX x:     <http://purl.org/stuff/> 
+
+SELECT * WHERE { 
+    ?bookmark a x:Bookmark ;
+        x:url ?url ;
+       OPTIONAL dc:created ?created ;
+        OPTIONAL dc:title ?title ;
+        OPTIONAL dc:description ?description ;
+        OPTIONAL foaf:maker
+            [ foaf:nick ?nick ] ;
+        OPTIONAL x:tag ?tag
+}

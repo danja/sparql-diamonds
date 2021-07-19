@@ -1,0 +1,69 @@
+select distinct * where {
+
+?c a ?Concept .
+?Concept ?p "Knot" .  
+}
+LIMIT 10
+ 
+ 
+ 
+ FILTER regex(?text, "Knot", "i") 
+ 
+ 
+ https://www.wikidata.org/wiki/Q17586968
+ 
+ 
+ <https://en.wikipedia.org/wiki/Knot>
+ 
+ 
+ select distinct * where {
+
+<https://en.wikipedia.org/wiki/Knot> ?p1 ?o1 .
+?s ?p2 <https://en.wikipedia.org/wiki/Knot> .  
+}
+LIMIT 10
+
+  select distinct * where {
+
+<https://en.wikipedia.org/wiki/Knot> ?p1 ?o1 .
+
+}
+
+--------------
+select distinct * where {
+
+?s <http://schema.org/name> ?text .
+
+  #  "Knot"@en
+  FILTER regex(?text, "Knot", "i")
+}
+
+timed out, but:
+
+"bindings" : [ {
+      "s" : {
+        "type" : "uri",
+        "value" : "https://de.wikipedia.org/wiki/Verkehrsknotenpunkt"
+      },
+      "text" : {
+        "xml:lang" : "de",
+        "type" : "literal",
+        "value" : "Verkehrsknotenpunkt"
+      }
+    }, {
+      "s" : {
+        "type" : "uri",
+        "value" : "https://lv.wikipedia.org/wiki/Divpadsmit_saniknotu_v%C4%ABru"
+      },
+      "text" : {
+        "xml:lang" : "lv",
+        "type" : "literal",
+        "value" : "Divpadsmit saniknotu vīru"
+      }
+      
+ ------
+ 
+      
+
+
+

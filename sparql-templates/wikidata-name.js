@@ -4,9 +4,11 @@
 */
 
 var wikidataNameTemplate = '\n\
+\n\
 PREFIX schema: <http://schema.org/>  \n\
 \n\
 SELECT DISTINCT ?target WHERE { \n\
 \n\
     ?target schema:name "~{name}~"@en . \n\
+    ?target schema:about ?concept . \n\
 }'; 

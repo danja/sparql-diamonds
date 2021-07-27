@@ -1,7 +1,6 @@
 PREFIX schema: <http://schema.org/>
 
-SELECT DISTINCT ?target where {
-
-?target schema:name "Knot"@en .
-
+SELECT DISTINCT * where {
+   ?target schema:name "Knot"@en .
+   ?target schema:about ?concept .
 }

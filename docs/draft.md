@@ -2,7 +2,7 @@
 
 # Abstract
 
-This document describes a specific software-architectural pattern, in the general sense of the book 'Design Patterns' [0] as a means of providing solutions to recurring application development demands in the context of the 'Web of Data' []. As such a pattern it can be described in the abstract, but it is felt that it has most utility in concrete scenarios involving the widely deployed Web technologies around the browser in conjunction with SPARQL servers.
+This document describes a specific software-architectural pattern as a means of providing solutions to recurring application development demands in the context of the 'Web of Data' []. As such a pattern it can be described in the abstract, but it is felt that it has most utility in concrete scenarios involving the Web browser in conjunction with SPARQL servers and the Web at large. 
 
 The infrastructure components of a 'SPARQL Diamond' are a Web browser (a HTTP client with processing/rendering capabilities) and a SPARQL server (database, query engine and HTTP server). Between these a templating engine intermediates custom queries (requests) and another templating engine delivers application-specific rendering of the results from those queries (responses).
 
@@ -17,7 +17,7 @@ In May 2001, Scientific American had a feature article entitled "The Semantic We
 
 ## Associated Technologies
 
-
+# References
 
 
 

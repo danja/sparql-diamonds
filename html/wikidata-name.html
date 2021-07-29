@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Bookmark List</title>
+    <title>WikiData - Name</title>
 
     <script src="../lib/jquery-3.6.0.min.js"></script>
 
@@ -12,40 +12,43 @@
     <!-- time format utils -->
     <script src="../lib/moment.js"></script>
 
-
-
-
     <script src="../js/config.js"></script>
     <script src="../js/utils.js"></script>
     <script src="../js/sparql-connector.js"></script>
 
-    <script src="../sparql-templates/bookmarks-common.js"></script>
-    <script src="../sparql-templates/list-bookmarks.js"></script>
+    <script src="../sparql-templates/wikidata-name.js"></script>
 
     <script type="text/javascript" language="javascript">
       // var getPageListSparql = sparqlTemplater(getPageListSparqlTemplate, {
       //     "graphURI": FooWiki.graphURI
       // });
 
-      var linkTemplate = "~{#title}~ \
+      var linkTemplate =
+        "~{#title}~ \
 <a href='page-static.html?uri=~{uri}~'>~{title}~</a> \
 ~{/title}~ \
 ~{^title}~ \
 <a href='page-static.html?uri=~{uri}~'>~{uri}~</a> \
-  ~{/title}~ ";
+  ~{/title}~ "
 
-      function formatRow(entry) { // content,
-  //  entry.uri = "page.html?uri=" + entry.uri;
-  entry.modified = moment(entry.modified).format("dddd, MMMM Do YYYY, h:mm:ss a");
-  var row = templater(rowTemplate, entry);
-  return row;
-}
+      function formatRow (entry) {
+        // content,
+        //  entry.uri = "page.html?uri=" + entry.uri;
+        entry.modified = moment(entry.modified).format(
+          'dddd, MMMM Do YYYY, h:mm:ss a'
+        )
+        var row = templater(rowTemplate, entry)
+        return row
+      }
 
-      var rowTemplate = " <tr> \
-           <td>" + linkTemplate + "</td> \
+      var rowTemplate =
+        ' <tr> \
+           <td>' +
+        linkTemplate +
+        "</td> \
            <td class='center'>~{modified}~</td> \
             <td class='center'>~{nick}~</td> \
-            </tr>";
+            </tr>"
 
       function makeEntryListHTML (entryArray) {
         var rows = ''
@@ -72,10 +75,10 @@
         // setupButtons();
 
         var doneCallback = function (json) {
-          console.log('RESULT = ' +  JSON.stringify(json));
+          console.log('RESULT = ' + JSON.stringify(json))
           var rows = makeEntryListHTML(json)
           $('#entries').replaceWith(rows)
-  //        setupTagsPanel('#tagsPanelTagsContainer')
+          //        setupTagsPanel('#tagsPanelTagsContainer')
         }
 
         // does ajax and conversts results xml-json

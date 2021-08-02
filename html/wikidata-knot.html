@@ -9,15 +9,10 @@
     <!-- template engine -->
     <script src="../lib/hogan-3.0.2.js"></script>
 
-    <!-- time format utils -->
-    <script src="../lib/moment.js"></script>
-
-    <script src="../js/config.js"></script>
     <script src="../js/utils.js"></script>
     <script src="../js/sparql-connector.js"></script>
 
     <script type="text/javascript" language="javascript">
-
       var wikidataKnotSparql =
         '\n\
          PREFIX schema: <http://schema.org/>  \n\
@@ -27,46 +22,42 @@
          ?target schema:name "Knot"@en . \n\
       }'
 
-      var linkTemplate = "<li><a href='~{target}~'>~{target}~</a></li>";
+      var linkTemplate = "<li><a href='~{target}~'>~{target}~</a></li>"
 
-      var endpoint = "https://query.wikidata.org/sparql?query=";
+      var endpoint = 'https://query.wikidata.org/sparql?query='
 
       var queryUrl =
-        endpoint +
-        encodeURIComponent(wikidataKnotSparql) +
-        '&output=xml'
+        endpoint + encodeURIComponent(wikidataKnotSparql) + '&output=xml'
 
       function makeList (linkArray) {
         var list = '<ul>';
 
         for (var i = 0; i < linkArray.length; i++) {
+          console.log("linkArray[i] = "+JSON.stringify(linkArray[i]));
           list += templater(linkTemplate, linkArray[i]);
         }
-        
-        return list+'</ul>';
+
+        return list + '</ul>'
       }
 
-      $(function () {
+      function resultsHandler (json) {
+        console.log('RESULT = ' + JSON.stringify(json))
 
-        var doneCallback = function (json) {
-          console.log('RESULT = ' + JSON.stringify(json));
+        var list = makeList(json)
 
-        var list = makeList(json);
+        console.log('list = ' + list)
 
-          console.log('list = ' + list);
-          $('#targets').replaceWith(list)
-        }
+        $('#targets').replaceWith(list)
+      }
 
-        // does ajax and conversts results xml-json
-        getJsonForSparqlURL(queryUrl, doneCallback)
-      })
+      // does ajax and conversts results xml-json
+      getJsonForSparqlURL(queryUrl, resultsHandler);
+
     </script>
   </head>
 
   <body>
     Wikidata things named 'Knot'
-
-      <p id="targets"></p>
-
+    <p id="targets"></p>
   </body>
 </html>

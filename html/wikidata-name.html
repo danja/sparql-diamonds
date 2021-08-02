@@ -2,102 +2,88 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>WikiData - Name</title>
+    <title>Wikidata things named 'Knot'</title>
 
     <script src="../lib/jquery-3.6.0.min.js"></script>
 
-    <!-- mustache template compiler -->
+    <!-- template engine -->
     <script src="../lib/hogan-3.0.2.js"></script>
 
-    <!-- time format utils -->
-    <script src="../lib/moment.js"></script>
-
-    <script src="../js/config.js"></script>
     <script src="../js/utils.js"></script>
     <script src="../js/sparql-connector.js"></script>
 
-    <script src="../sparql-templates/wikidata-name.js"></script>
-
     <script type="text/javascript" language="javascript">
-      // var getPageListSparql = sparqlTemplater(getPageListSparqlTemplate, {
-      //     "graphURI": FooWiki.graphURI
-      // });
+      var wikidataNameTemplate =
+        '\n\
+         PREFIX schema: <http://schema.org/>  \n\
+         \n\
+         SELECT DISTINCT ?target WHERE { \n\
+         \n\
+         ?target schema:name "~{name}~"@en . \n\
+      }'
 
-      var linkTemplate =
-        "~{#title}~ \
-<a href='page-static.html?uri=~{uri}~'>~{title}~</a> \
-~{/title}~ \
-~{^title}~ \
-<a href='page-static.html?uri=~{uri}~'>~{uri}~</a> \
-  ~{/title}~ "
+      var linkTemplate = "<li><a href='~{target}~'>~{target}~</a></li>"
 
-      function formatRow (entry) {
-        // content,
-        //  entry.uri = "page.html?uri=" + entry.uri;
-        entry.modified = moment(entry.modified).format(
-          'dddd, MMMM Do YYYY, h:mm:ss a'
-        )
-        var row = templater(rowTemplate, entry)
-        return row
-      }
+      var endpoint = 'https://query.wikidata.org/sparql?query='
 
-      var rowTemplate =
-        ' <tr> \
-           <td>' +
-        linkTemplate +
-        "</td> \
-           <td class='center'>~{modified}~</td> \
-            <td class='center'>~{nick}~</td> \
-            </tr>"
 
-      function makeEntryListHTML (entryArray) {
-        var rows = ''
-        //  var entryArray = sparqlXMLtoJSON(xml);
 
-        for (var i = 0; i < entryArray.length; i++) {
-          rows += formatRow(entryArray[i])
-        }
-        return rows
-      }
+      function makeList (linkArray) {
+        var list = '<ul>'
 
-      var queryUrl =
-        SparqlServer.host +
-        SparqlServer.queryPath +
-        '?query=' +
-        encodeURIComponent(listBookmarksSparqlTemplate) +
-        '&output=xml'
-
-      $(function () {
-        // setupErrorHandling();
-        // spinner();
-
-        // $("#graphName").attr("value", FooWiki.graphURI);
-        // setupButtons();
-
-        var doneCallback = function (json) {
-          console.log('RESULT = ' + JSON.stringify(json))
-          var rows = makeEntryListHTML(json)
-          $('#entries').replaceWith(rows)
-          //        setupTagsPanel('#tagsPanelTagsContainer')
+        for (var i = 0; i < linkArray.length; i++) {
+          console.log("linkArray[i] = "+linkArray[i]);
+          list += templater(linkTemplate, linkArray[i])
         }
 
-        // does ajax and conversts results xml-json
-        getJsonForSparqlURL(queryUrl, doneCallback)
-        //      getDataForURL(doneCallback, getPagesUrl);
+        return list + '</ul>'
+      }
+
+      //   var resultsHandler = function (json) {
+      function resultsHandler (json) {
+        console.log('RESULT = ' + JSON.stringify(json))
+
+        var list = makeList(json)
+
+        console.log('list = ' + list)
+        $('#targets').replaceWith(list)
+      }
+
+      function doQuery (name) {
+      //  var map = "{ name: '"+name+"' }";
+      //var dict = {};
+      //dict["name"] = name;
+      var dict = {name: name};
+        console.log("dict = "+JSON.stringify(dict));
+        var wikidataNameSparql = templater(wikidataNameTemplate, dict);
+
+        console.log("wikidataNameSparql = "+wikidataNameSparql);
+
+        var queryUrl =
+          endpoint + encodeURIComponent(wikidataNameSparql) + '&output=xml'
+
+        // does ajax and passes results json to handler
+        getJsonForSparqlURL(queryUrl, resultsHandler);
+      }
+
+      $(document).ready(function () {
+        $('#submit-button').click(function () {
+          console.log($('#wikidata-name').val())
+          doQuery($('#wikidata-name').val())
+        })
       })
     </script>
   </head>
 
   <body>
-    Bookmarks
-    <table>
-      <tr>
-        <th class="center">Page</th>
-        <th class="center">Date</th>
-        <th class="center">Creator</th>
-      </tr>
-      <tr id="bookmarks"></tr>
-      <tr id="entries"></tr>
-    </table>
+    <h2>Wikidata named things</h2>
+
+    <form id="name-form">
+      <label>Name:</label>
+      <input type="text" id="wikidata-name" />
+      <button type="button" id="submit-button">Submit</button>
+    </form>
+
+    <p id="targets"></p>
   </body>
 </html>

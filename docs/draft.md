@@ -1,3 +1,5 @@
+/// first attempt - since moved to draft.odt
+
 # SPARQL Diamonds : an architectural pattern for rapid development of data-driven applications
 
 # Abstract

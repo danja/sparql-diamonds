@@ -17,12 +17,12 @@
         '\n\
          PREFIX schema: <http://schema.org/>  \n\
          \n\
-         SELECT DISTINCT ?target WHERE { \n\
+         SELECT DISTINCT ?link WHERE { \n\
          \n\
-         ?target schema:name "Knot"@en . \n\
+         ?link schema:name "Knot"@en . \n\
       }'
 
-      var linkTemplate = "<li><a href='~{target}~'>~{target}~</a></li>"
+      var linkTemplate = "<li><a link='~{link}~'>~{link}~</a></li>"
 
       var endpoint = 'https://query.wikidata.org/sparql?query='
 
@@ -47,7 +47,7 @@
 
         console.log('list = ' + list)
 
-        $('#targets').replaceWith(list)
+        $('#links').replaceWith(list)
       }
 
       // does ajax and conversts results xml-json
@@ -58,6 +58,6 @@
 
   <body>
     Wikidata things named 'Knot'
-    <p id="targets"></p>
+    <p id="links"></p>
   </body>
 </html>

@@ -24,20 +24,62 @@ function getJsonForSparqlURL(pageURL, callback) {
          if(!json) {
            json = "{}";
          }
-       console.log("2JSON = "+JSON.stringify(json));
-  //       doneCallback(json, getCurrentPageURI());
          callback(json);
      })  .fail(function() {
-    alert( "error in getJsonForSparqlURL sparql-connect line 27" );
+    alert( "error in getJsonForSparqlURL" );
   });
  }
 
+ function getResults(pageURL, callback) {
+    $.ajax({
+        url: pageURL,
+        // accept: {
+           // xml: 'application/xml;charset=UTF-8',
+           // sparql: 'sparql-results+xml;charset=UTF-8'
+        // },
+        headers: { // belt and braces
+            'Accept': 'application/sparql-results+json, application/json;charset=UTF-8'
+            //   'Accept-Charset': 'UTF-8' unsafe
+        }
+    }).done(function (json) {
+       // var json = sparqlXMLtoJSON(xml);
+
+        if(!json) {
+          json = "{}";
+        }
+        callback(json);
+    })  .fail(function() {
+   alert( "error in getResults" );
+ });
+}
+
+ function getJsonForSparqlURL(pageURL, callback) {
+    $.ajax({
+        url: pageURL,
+        accept: {
+            xml: 'application/xml;charset=UTF-8',
+            sparql: 'sparql-results+xml;charset=UTF-8'
+        },
+        headers: { // belt and braces
+            'Accept': 'sparql-results+xml;charset=UTF-8'
+            //   'Accept-Charset': 'UTF-8' unsafe
+        }
+    }).done(function (xml) {
+        var json = sparqlXMLtoJSON(xml);
+
+        if(!json) {
+          json = "{}";
+        }
+        callback(json);
+    })  .fail(function() {
+   alert( "error in getJsonForSparqlURL" );
+ });
+}
+
 /**
- * Comment template.
- * @param {string} foo This is a param with a description too long to fit in
- *     one line.
- * @return {number} This returns something that has a description too long to
- *     fit in one line.
+ incomplete!!!
+
+ returns eg. [{"target":"https://commons.wikimedia.org/wiki/Knot"},{"target":"https://en.wikipedia.org/wiki/Knot"}]
  */
  function sparqlXMLtoJSON(xml) {
 

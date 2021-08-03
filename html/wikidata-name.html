@@ -17,12 +17,12 @@
         '\n\
          PREFIX schema: <http://schema.org/>  \n\
          \n\
-         SELECT DISTINCT ?target WHERE { \n\
+         SELECT DISTINCT ?link WHERE { \n\
          \n\
-         ?target schema:name "~{name}~"@en . \n\
+         ?link schema:name "~{name}~"@en . \n\
       }'
 
-      var linkTemplate = "<li><a href='~{target}~'>~{target}~</a></li>"
+      var linkTemplate = "<li><a href='~{link}~'>~{link}~</a></li>"
 
       var endpoint = 'https://query.wikidata.org/sparql?query='
 
@@ -42,11 +42,19 @@
       //   var resultsHandler = function (json) {
       function resultsHandler (json) {
         console.log('RESULT = ' + JSON.stringify(json))
-
-        var list = makeList(json)
-
+       console.log('RESULTS = ' + JSON.stringify(json["results"]["bindings"]))
+        var bindings = json["results"]["bindings"];
+        var links = [];
+        for (var i = 0; i < bindings.length; i++) {
+          console.log("BINDING")
+         console.log(bindings[i]["link"]["value"]);
+          links.push({link : bindings[i]["link"]["value"]})
+        }
+        console.log('links = ' + JSON.stringify(links));
+        // var list = makeList(json)
+        var list = makeList(links)
         console.log('list = ' + list)
-        $('#targets').replaceWith(list)
+        $('#links').replaceWith(list)
       }
 
       function doQuery (name) {
@@ -60,10 +68,11 @@
         console.log("wikidataNameSparql = "+wikidataNameSparql);
 
         var queryUrl =
-          endpoint + encodeURIComponent(wikidataNameSparql) + '&output=xml'
-
+       //  endpoint + encodeURIComponent(wikidataNameSparql) + '&output=xml'
+        endpoint + encodeURIComponent(wikidataNameSparql) + '&output=json'
         // does ajax and passes results json to handler
-        getJsonForSparqlURL(queryUrl, resultsHandler);
+       // getJsonForSparqlURL(queryUrl, resultsHandler);
+       getResults(queryUrl, resultsHandler);
       }
 
       $(document).ready(function () {
@@ -84,6 +93,6 @@
       <button type="button" id="submit-button">Submit</button>
     </form>
 
-    <p id="targets"></p>
+    <p id="links"></p>
   </body>
 </html>

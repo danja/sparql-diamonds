@@ -33,6 +33,8 @@ Client-side, the configuration described here will be that of a typical Web brow
 
 ## The Diamond
 
+symmetry
+
 ## Templating Engine
 
 Text search-and-replace is a  technique 

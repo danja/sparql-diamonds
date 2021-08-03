@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Wikidata things named 'Knot'</title>
+    <title>Wikidata named things</title>
 
     <script src="../lib/jquery-3.6.0.min.js"></script>
 
@@ -67,12 +67,12 @@
 
         console.log("wikidataNameSparql = "+wikidataNameSparql);
 
-        var queryUrl =
+        var url =
        //  endpoint + encodeURIComponent(wikidataNameSparql) + '&output=xml'
         endpoint + encodeURIComponent(wikidataNameSparql) + '&output=json'
         // does ajax and passes results json to handler
        // getJsonForSparqlURL(queryUrl, resultsHandler);
-       getResults(queryUrl, resultsHandler);
+       getResults(url, resultsHandler);
       }
 
       $(document).ready(function () {

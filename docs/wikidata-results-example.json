@@ -17,7 +17,3 @@
   }
 }
 
-[{"target":"https://commons.wikimedia.org/wiki/Knot"},{"target":"https://en.wikipedia.org/wiki/Knot"}]
-
-
-[{"target":{"type":"uri","value":"https://commons.wikimedia.org/wiki/Knot"}},{"target":{"type":"uri","value":"https://en.wikipedia.org/wiki/Knot"}}]

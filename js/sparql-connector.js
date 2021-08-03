@@ -1,11 +1,7 @@
 
 
 /**
- * Comment template.
- * @param {string} foo This is a param with a description too long to fit in
- *     one line.
- * @return {number} This returns something that has a description too long to
- *     fit in one line.
+ * no no no
  */
 function getJsonForSparqlURL(pageURL, callback) {
      $.ajax({
@@ -80,6 +76,13 @@ function getJsonForSparqlURL(pageURL, callback) {
  incomplete!!!
 
  returns eg. [{"target":"https://commons.wikimedia.org/wiki/Knot"},{"target":"https://en.wikipedia.org/wiki/Knot"}]
+
+ instead of
+
+[{"target":{"type":"uri","value":"https://commons.wikimedia.org/wiki/Knot"}},{"target":{"type":"uri","value":"https://en.wikipedia.org/wiki/Knot"}}]
+
+
+
  */
  function sparqlXMLtoJSON(xml) {
 

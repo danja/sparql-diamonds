@@ -1,0 +1,92 @@
+[
+    {
+        "bookmark": {
+            "type": "uri",
+            "value": "http://hyperdata.org/bookmarks/b1"
+        },
+        "url": {
+            "type": "uri",
+            "value": "https://en.wikipedia.org/wiki/Exquisite_corpse"
+        },
+        "title": {
+            "type": "literal",
+            "value": "Exquisite Corpse"
+        },
+        "created": {
+            "type": "literal",
+            "value": "2012-04-17T16:06:30Z"
+        },
+        "description": {
+            "type": "literal",
+            "value": "Wikipedia page on a surrealist game"
+        },
+        "nick": {
+            "type": "literal",
+            "value": "danja"
+        },
+        "tag": {
+            "type": "literal",
+            "value": "art"
+        }
+    },
+    {
+        "bookmark": {
+            "type": "uri",
+            "value": "http://hyperdata.org/bookmarks/b1"
+        },
+        "url": {
+            "type": "uri",
+            "value": "https://en.wikipedia.org/wiki/Exquisite_corpse"
+        },
+        "title": {
+            "type": "literal",
+            "value": "Exquisite Corpse"
+        },
+        "created": {
+            "type": "literal",
+            "value": "2012-04-17T16:06:30Z"
+        },
+        "description": {
+            "type": "literal",
+            "value": "Wikipedia page on a surrealist game"
+        },
+        "nick": {
+            "type": "literal",
+            "value": "danja"
+        },
+        "tag": {
+            "type": "literal",
+            "value": "game"
+        }
+    },
+    {
+        "bookmark": {
+            "type": "uri",
+            "value": "http://hyperdata.org/bookmarks/b1"
+        },
+        "url": {
+            "type": "uri",
+            "value": "https://en.wikipedia.org/wiki/Exquisite_corpse"
+        },
+        "title": {
+            "type": "literal",
+            "value": "Exquisite Corpse"
+        },
+        "created": {
+            "type": "literal",
+            "value": "2012-04-17T16:06:30Z"
+        },
+        "description": {
+            "type": "literal",
+            "value": "Wikipedia page on a surrealist game"
+        },
+        "nick": {
+            "type": "literal",
+            "value": "danja"
+        },
+        "tag": {
+            "type": "literal",
+            "value": "surrealism"
+        }
+    }
+]

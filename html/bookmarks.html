@@ -2,99 +2,96 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Bookmark List</title>
+    <title>Bookmarks</title>
 
-    <script src="lib/jquery-3.6.0.min.js"></script>
+    <script src="../lib/jquery-3.6.0.min.js"></script>
 
-    <!-- mustache template compiler -->
-    <script src="lib/hogan-3.0.2.js"></script>
+    <!-- template engine -->
+    <script src="../lib/hogan-3.0.2.js"></script>
 
     <!-- time format utils -->
-    <script src="lib/moment.js"></script>
+    <script src="../lib/moment.js"></script>
 
+    <script src="../js/config.js"></script>
 
+    <script src="../js/utils.js"></script>
+    <script src="../js/sparql-connector.js"></script>
 
-
-    <script src="js/config.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/sparql-connector.js"></script>
-
-    <script src="sparql-templates/bookmarks-common.js"></script>
-    <script src="sparql-templates/list-bookmarks.js"></script>
+    <script src="../sparql-templates/bookmarks-common.js"></script>
+    <script src="../sparql-templates/bookmarks-by-title.js"></script>
 
     <script type="text/javascript" language="javascript">
-      // var getPageListSparql = sparqlTemplater(getPageListSparqlTemplate, {
-      //     "graphURI": FooWiki.graphURI
-      // });
+      function makeList (linkArray) {
+        var list = '<ul>'
 
-      var linkTemplate = "~{#title}~ \
-<a href='page-static.html?uri=~{uri}~'>~{title}~</a> \
-~{/title}~ \
-~{^title}~ \
-<a href='page-static.html?uri=~{uri}~'>~{uri}~</a> \
-  ~{/title}~ ";
-
-      function formatRow(entry) { // content,
-  //  entry.uri = "page.html?uri=" + entry.uri;
-  entry.modified = moment(entry.modified).format("dddd, MMMM Do YYYY, h:mm:ss a");
-  var row = templater(rowTemplate, entry);
-  return row;
-}
-
-      var rowTemplate = " <tr> \
-           <td>" + linkTemplate + "</td> \
-           <td class='center'>~{modified}~</td> \
-            <td class='center'>~{nick}~</td> \
-            </tr>";
-
-      function makeEntryListHTML (entryArray) {
-        var rows = ''
-        //  var entryArray = sparqlXMLtoJSON(xml);
-
-        for (var i = 0; i < entryArray.length; i++) {
-          rows += formatRow(entryArray[i])
+        for (var i = 0; i < linkArray.length; i++) {
+          console.log('linkArray[i] = ' + linkArray[i])
+          list += templater(linkTemplate, linkArray[i])
         }
-        return rows
+
+        return list + '</ul>'
       }
 
-      var queryUrl =
-        SparqlServer.host +
-        SparqlServer.queryPath +
-        '?query=' +
-        encodeURIComponent(listBookmarksSparqlTemplate) +
-        '&output=xml'
-
-      $(function () {
-        // setupErrorHandling();
-        // spinner();
-
-        // $("#graphName").attr("value", FooWiki.graphURI);
-        // setupButtons();
-
-        var doneCallback = function (json) {
-          console.log('RESULT = ' +  JSON.stringify(json));
-          var rows = makeEntryListHTML(json)
-          $('#entries').replaceWith(rows)
-  //        setupTagsPanel('#tagsPanelTagsContainer')
+      //   var resultsHandler = function (json) {
+      function resultsHandler (json) {
+        console.log('RESULT = ' + JSON.stringify(json))
+//        console.log('RESULTS = ' + JSON.stringify(json['results']['bindings']))
+        var bindings = json['results']['bindings']
+        var bookmarks = []
+        for (var i = 0; i < bindings.length; i++) {
+          console.log('BINDINGS')
+          console.log(JSON.stringify(bindings))
+          bookmarks.push({ link: bindings[i]['link']['value'] })
         }
+        console.log('bookmarks = ' + JSON.stringify(bookmarks))
+        // var list = makeList(json)
+        var list = makeList(bookmarks)
+        console.log('list = ' + list)
+        $('#bookmarks').replaceWith(list)
+      }
 
-        // does ajax and conversts results xml-json
-        getJsonForSparqlURL(queryUrl, doneCallback)
-        //      getDataForURL(doneCallback, getPagesUrl);
+      /*
+      function doQuery (name) {
+        var dict = { name: name }
+        console.log('dict = ' + JSON.stringify(dict))
+        var wikidataNameSparql = templater(wikidataNameTemplate, dict)
+
+        console.log('wikidataNameSparql = ' + wikidataNameSparql)
+
+        var queryUrl =
+          host + encodeURIComponent(wikidataNameSparql) + '&output=json'
+        getResults(queryUrl, resultsHandler)
+      }
+      */
+
+      function listByTitle () {
+        // template on ORDER?
+
+        // templater(wikidataNameTemplate, dict)
+
+        var url =
+          SparqlServer.host +
+          SparqlServer.queryPath +
+          "?query=" +
+          encodeURIComponent(listBookmarksSparqlTemplate) +
+          '&output=json';
+
+        getResults(url, resultsHandler)
+      }
+
+      $(document).ready(function () {
+        // $('#submit-button').click(function () {
+        // console.log($('#wikidata-name').val())
+        //  doQuery($('#wikidata-name').val())
+        //})
+        listByTitle();
       })
     </script>
   </head>
 
   <body>
-    Bookmarks
-    <table>
-      <tr>
-        <th class="center">Page</th>
-        <th class="center">Date</th>
-        <th class="center">Creator</th>
-      </tr>
-      <tr id="bookmarks"></tr>
-      <tr id="entries"></tr>
-    </table>
+    <h2>Bookmarks</h2>
+
+    <p id="bookmarks"></p>
   </body>
 </html>

@@ -26,7 +26,7 @@
 
         for (var i = 0; i < linkArray.length; i++) {
           console.log('linkArray[i] = ' + linkArray[i])
-          list += templater(linkTemplate, linkArray[i])
+          list += templater(bookmarksSparqlTemplate, linkArray[i])
         }
 
         return list + '</ul>'
@@ -39,9 +39,9 @@
         var bindings = json['results']['bindings']
         var bookmarks = []
         for (var i = 0; i < bindings.length; i++) {
-          console.log('BINDINGS')
-          console.log(JSON.stringify(bindings))
-          bookmarks.push({ link: bindings[i]['link']['value'] })
+          console.log('BINDING')
+          console.log(JSON.stringify(bindings[i]))
+           bookmarks.push({ link: bindings[i]['bookmark'] })
         }
         console.log('bookmarks = ' + JSON.stringify(bookmarks))
         // var list = makeList(json)

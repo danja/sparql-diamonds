@@ -27,9 +27,10 @@
       var endpoint = 'https://query.wikidata.org/sparql?query='
 
       var queryUrl =
-        endpoint + encodeURIComponent(wikidataKnotSparql) + '&output=xml'
+        endpoint + encodeURIComponent(wikidataKnotSparql) + '&output=json'
 
       function makeList (linkArray) {
+        console.log("linkArray = "+JSON.stringify(linkArray));
         var list = '<ul>';
 
         for (var i = 0; i < linkArray.length; i++) {

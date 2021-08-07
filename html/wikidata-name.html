@@ -26,13 +26,11 @@
 
       var endpoint = 'https://query.wikidata.org/sparql?query='
 
-
-
       function makeList (linkArray) {
         var list = '<ul>'
 
         for (var i = 0; i < linkArray.length; i++) {
-          console.log("linkArray[i] = "+linkArray[i]);
+          console.log('linkArray[i] = ' + linkArray[i])
           list += templater(linkTemplate, linkArray[i])
         }
 
@@ -42,15 +40,15 @@
       //   var resultsHandler = function (json) {
       function resultsHandler (json) {
         console.log('RESULT = ' + JSON.stringify(json))
-       console.log('RESULTS = ' + JSON.stringify(json["results"]["bindings"]))
-        var bindings = json["results"]["bindings"];
-        var links = [];
+        console.log('RESULTS = ' + JSON.stringify(json['results']['bindings']))
+        var bindings = json['results']['bindings']
+        var links = []
         for (var i = 0; i < bindings.length; i++) {
-          console.log("BINDING")
-         console.log(bindings[i]["link"]["value"]);
-          links.push({link : bindings[i]["link"]["value"]})
+          console.log('BINDING')
+          console.log(bindings[i]['link']['value'])
+          links.push({ link: bindings[i]['link']['value'] })
         }
-        console.log('links = ' + JSON.stringify(links));
+        console.log('links = ' + JSON.stringify(links))
         // var list = makeList(json)
         var list = makeList(links)
         console.log('list = ' + list)
@@ -58,21 +56,18 @@
       }
 
       function doQuery (name) {
-      //  var map = "{ name: '"+name+"' }";
-      //var dict = {};
-      //dict["name"] = name;
-      var dict = {name: name};
-        console.log("dict = "+JSON.stringify(dict));
-        var wikidataNameSparql = templater(wikidataNameTemplate, dict);
+        var dict = { name: name }
+        console.log('dict = ' + JSON.stringify(dict))
+        var wikidataNameSparql = templater(wikidataNameTemplate, dict)
 
-        console.log("wikidataNameSparql = "+wikidataNameSparql);
+        console.log('wikidataNameSparql = ' + wikidataNameSparql)
 
         var url =
-       //  endpoint + encodeURIComponent(wikidataNameSparql) + '&output=xml'
-        endpoint + encodeURIComponent(wikidataNameSparql) + '&output=json'
+          //  endpoint + encodeURIComponent(wikidataNameSparql) + '&output=xml'
+          endpoint + encodeURIComponent(wikidataNameSparql) + '&output=json'
         // does ajax and passes results json to handler
-       // getJsonForSparqlURL(queryUrl, resultsHandler);
-       getResults(url, resultsHandler);
+        // getJsonForSparqlURL(queryUrl, resultsHandler);
+        doQuery(url, resultsHandler)
       }
 
       $(document).ready(function () {

@@ -20,7 +20,7 @@
     <script src="../js/sparql-connector.js"></script>
 
     <script src="../sparql-templates/bookmarks-common.js"></script>
-    <script src="../sparql-templates/bookmarks-by-title.js"></script>
+    <script src="../sparql-templates/bookmark-insert.js"></script>
 
     <script src="../html-templates/bookmarks-template.js"></script>
     <!-- script src="../html-templates/link-template.js"></script -->
@@ -35,13 +35,11 @@
           console.log('bookmarks[i] = ' + JSON.stringify(bookmarks[keys[i]]))
           list += templater(listBookmarksTemplate, bookmarks[keys[i]])
         }
-
         return list + '</ul>'
       }
 
       // three ways of handling : the ID, single values, multiple values
 
-      //   var resultsHandler = function (json) {
       function resultsHandler (json) {
         // console.log('RESULT = ' + JSON.stringify(json))
         //        console.log('RESULTS = ' + JSON.stringify(json['results']['bindings']))
@@ -79,12 +77,12 @@
           }
         }
         console.log('bookmarks = ' + JSON.stringify(bookmarks))
-        list = makeList(bookmarks)
+        var list = makeList(bookmarks)
 
         $('#bookmarks').replaceWith(list)
       }
 
-      function listByTitle () {
+      function listBookmarks () {
         // template on ORDER?
 
         // templater(wikidataNameTemplate, dict)
@@ -99,12 +97,38 @@
         doQuery(url, resultsHandler)
       }
 
+      function doSubmit () { // SPECIAL CASE TAGS? CREATED
+
+        // extract data from form
+        // default, starting point is { id: 'value'}
+        var bookmarkData = {};
+        $('#fields :input').each(function (index, field) {
+          //element is the specific field:
+          bookmarkData[$(field).attr('id')] =  $(field).val();
+        //  console.log($(field).attr('id'))
+        //  console.log($(field).val())
+        });
+
+        // generate a URI for the bookmark
+        bookmarkData['bookmark'] =  bookmarkBaseURI + hashCode(bookmarkData['url']);
+
+        bookmarkData['created'] = (new Date()).toISOString();
+        console.log(JSON.stringify(bookmarkData));
+        var addBookmarkSparql = templater(addBookmarkSparqlTemplate, bookmarkData);
+
+        console.log(addBookmarkSparql)
+
+        var url = SparqlServer.host + SparqlServer.updatePath;
+
+        doInsert(url, addBookmarkSparql);
+      }
+
       $(document).ready(function () {
         $('#submit-button').click(function () {
           console.log($('#add-bookmark').val())
           doSubmit($('#add-bookmark').val())
         })
-        listByTitle()
+        listBookmarks();
       })
     </script>
   </head>
@@ -115,18 +139,18 @@
     <p id="bookmarks"></p>
 
     <form id="add-bookmark">
-      <fieldset>
+      <fieldset id="fields">
         <legend>Add Bookmark</legend>
-        <label for="Link">Link</label>
-        <input id="link" type="text" />
+        <label for="url">Link</label>
+        <input id="url" type="text" value="http://hyperdata.it/bookmarks/b3" />
         <label for="title">Title</label>
-        <input id="title" type="text" />
+        <input id="title" type="text" value="b3" />
         <label for="description">Description</label>
-        <textarea class="description" id="description"></textarea> 
+        <textarea class="description" id="description">this is b3</textarea>
         <label for="tags">Tags</label>
-        <input id="tags" type="text" />
+        <input id="tags" type="text" value="tag1, tag2"/>
         <label for="nick">Creator</label>
-        <input id="nick" type="text" />
+        <input id="nick" type="text" value="danja"/>
       </fieldset>
       <button type="button" id="submit-button">Submit</button>
     </form>

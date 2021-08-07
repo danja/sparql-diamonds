@@ -1,3 +1,33 @@
+/**
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function spinner () {
+  var $loading = $('#spinner').hide()
+  $.ajaxSetup({
+    beforeSend: function () {
+      $('#spinner').show()
+    },
+    complete: function () {
+      $('#spinner').hide()
+    },
+    success: function () {}
+  })
+}
+
+// bit of a sledgehammer, but whatever works...
+Array.prototype.contains = function (obj) {
+  var i = this.length
+  while (i--) {
+    if (this[i] == obj) {
+      return true
+    }
+  }
+  return false
+}
 
 /**
  * Comment template.
@@ -6,88 +36,20 @@
  * @return {number} This returns something that has a description too long to
  *     fit in one line.
  */
- function spinner() {
-    var $loading = $('#spinner').hide();
-    $.ajaxSetup({
-        beforeSend: function () {
-            $('#spinner').show();
-        },
-        complete: function () {
-            $('#spinner').hide();
-        },
-        success: function () {}
-    });
-}
+function setupErrorHandling () {
+  $('#errorbox').hide()
+  $('#errorbox').click(function () {
+    // $("#errorbox").toggle(500);
+    $('#errorbox').hide()
+  })
 
- // bit of a sledgehammer, but whatever works...
-Array.prototype.contains = function (obj) {
-    var i = this.length;
-    while (i--) {
-        if (this[i] == obj) {
-            return true;
-        }
+  $.ajaxSetup({
+    error: function (x, status, error) {
+      $('#errorbox').text(status + ': ' + error)
+      $('#errorbox').toggle(500)
+      // $("#errorbox").toggle(2000);
     }
-    return false;
-}
-
-/**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function setupErrorHandling() {
-    $("#errorbox").hide();
-    $("#errorbox").click(function () {
-        // $("#errorbox").toggle(500);
-        $("#errorbox").hide();
-    });
-
-    $.ajaxSetup({
-        error: function (x, status, error) {
-            $("#errorbox").text(status + ": " + error);
-            $("#errorbox").toggle(500);
-            // $("#errorbox").toggle(2000);
-        }
-    });
-}
-
-/**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function sparqlTemplater(raw, replacementMap, isWrite) {
-    if (isWrite && replacementMap["content"]) {
-        replacementMap["content"] = escapeLiterals(replacementMap["content"]);
-    }
-    return templater(raw, replacementMap);
-}
-
-/**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function unescapeLiterals(text) {
-    var data = text.replace(/&#34&#34&#34/g, '"""');
-    return data;
-}
-
-/**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function escapeLiterals(text) {
-    return text.replace(/"""/g, "&#34&#34&#34");
+  })
 }
 
 /**
@@ -96,33 +58,73 @@ function escapeLiterals(text) {
  *     one line.
  * @return {number} This returns something that has a description too long to
  *     fit in one line.
-*/
+ */
+function sparqlTemplater (raw, replacementMap, isWrite) {
+  if (isWrite && replacementMap['content']) {
+    replacementMap['content'] = escapeLiterals(replacementMap['content'])
+  }
+  return templater(raw, replacementMap)
+}
 
+/**
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function unescapeLiterals (text) {
+  var data = text.replace(/&#34&#34&#34/g, '"""')
+  return data
+}
 
- function hash(text){
-      return decimalToHex(hashCode(text), 8);
- }
+/**
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function escapeLiterals (text) {
+  return text.replace(/"""/g, '&#34&#34&#34')
+}
+
+/**
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+
+function hash (text) {
+  return decimalToHex(hashCode(text), 8)
+}
 
 /*
  from https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
           */
-function hashCode(text) {
-  var hash = 0, i, chr;
+function hashCode (text) {
+  var hash = 0,
+    i,
+    chr
   for (i = 0; i < this.length; i++) {
-    chr   = this.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
+    chr = this.charCodeAt(i)
+    hash = (hash << 5) - hash + chr
+    hash |= 0 // Convert to 32bit integer
   }
-  return hash;
+  return hash
 }
 
 /*
 from https://stackoverflow.com/questions/57803/how-to-convert-decimal-to-hexadecimal-in-javascript
 */
-function decimalToHex(decimal, chars) {
-    return (decimal + Math.pow(16, chars)).toString(16).slice(-chars).toUpperCase();
+function decimalToHex (decimal, chars) {
+  return (decimal + Math.pow(16, chars))
+    .toString(16)
+    .slice(-chars)
+    .toUpperCase()
 }
-
 
 /**
 TODO rename
@@ -130,94 +132,94 @@ templater -> applyTemplate
 raw -> input
 
 */
-function templater(raw, replacementMap) {
-    var template = Hogan.compile(raw, {
-        delimiters: '~{ }~'
-    });
+function templater (raw, replacementMap) {
+  var template = Hogan.compile(raw, {
+    delimiters: '~{ }~'
+  })
 
-    var result = template.render(replacementMap);
-    return htmlUnescape(result); // why?
-    // Mustache spec : All variables are HTML escaped by default. If you want to return unescaped HTML, use the triple mustache: {{{name}}}.
+  var result = template.render(replacementMap)
+  return htmlUnescape(result) // why?
+  // Mustache spec : All variables are HTML escaped by default. If you want to return unescaped HTML, use the triple mustache: {{{name}}}.
 }
 
 /* parse URL */
 var queryString = (function (a) {
-    if (a == "") return {};
-    var b = {};
-    for (var i = 0; i < a.length; ++i) {
-        var p = a[i].split('=', 2);
-        if (p.length == 1)
-            b[p[0]] = "";
-        else
-            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
-    }
-    return b;
-})(window.location.search.substr(1).split('&'));
+  if (a == '') return {}
+  var b = {}
+  for (var i = 0; i < a.length; ++i) {
+    var p = a[i].split('=', 2)
+    if (p.length == 1) b[p[0]] = ''
+    else b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, ' '))
+  }
+  return b
+})(window.location.search.substr(1).split('&'))
 
 /**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function getCurrentPageURI() {
-    return encodeURI(queryString["uri"]);
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function getCurrentPageURI () {
+  return encodeURI(queryString['uri'])
 }
 
 /**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function translateLinks(object) {
-    $('div.content  a', object).each(
-        function () {
-            var href = this.href;
-            console.log("HREF=" + href);
-            if (href.indexOf(FooWiki.serverRootPath) != -1) { // less than perfect, in-page links maybe involve FooWiki.pagesBaseURI
-                var hashPosition = href.indexOf("#");
-                if (hashPosition != -1) {
-                    var anchor = href.substring(hashPosition); // "#Something"
-                    anchor = anchor.trim().toLowerCase();
-                    anchor = anchor.replace(/\s+/g, "-");
-                    this.href = href.substring(0, hashPosition) + anchor;
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function translateLinks (object) {
+  $('div.content  a', object).each(function () {
+    var href = this.href
+    console.log('HREF=' + href)
+    if (href.indexOf(FooWiki.serverRootPath) != -1) {
+      // less than perfect, in-page links maybe involve FooWiki.pagesBaseURI
+      var hashPosition = href.indexOf('#')
+      if (hashPosition != -1) {
+        var anchor = href.substring(hashPosition) // "#Something"
+        anchor = anchor.trim().toLowerCase()
+        anchor = anchor.replace(/\s+/g, '-')
+        this.href = href.substring(0, hashPosition) + anchor
 
-                    $(this).click(function () {
-                        $('html, body').animate({
-                            scrollTop: $(anchor).offset().top
-                        }, 250); // milliseconds
-                    });
-                } else {
-                    // http://localhost:3030/foowiki/page.html?uri=http://hyperdata.it/wiki/Home%20Page
-                    this.href = reviseHref(this);
-                }
-                return;
-            }
-        });
+        $(this).click(function () {
+          $('html, body').animate(
+            {
+              scrollTop: $(anchor).offset().top
+            },
+            250
+          ) // milliseconds
+        })
+      } else {
+        // http://localhost:3030/foowiki/page.html?uri=http://hyperdata.it/wiki/Home%20Page
+        this.href = reviseHref(this)
+      }
+      return
+    }
+  })
 
-    $("img", object).each(function () {
-        //  var split = window.location.href.split("/");
-        //    var path = split.slice(0, split.length - 1).join("/");
-        //     path = path + "/" + $(this).attr("src") + "&type=image";
-        // $(this).attr("src", path);
+  $('img', object).each(function () {
+    //  var split = window.location.href.split("/");
+    //    var path = split.slice(0, split.length - 1).join("/");
+    //     path = path + "/" + $(this).attr("src") + "&type=image";
+    // $(this).attr("src", path);
 
+    var path = FooWiki.pagesBaseURI + $(this).attr('src')
+    var me = this
+    var setImgSrc = function (src) {
+      console.log('SRC=' + src)
+      $(me).attr('src', src)
+    }
+    getImage(path, setImgSrc)
+  })
 
-        var path = FooWiki.pagesBaseURI + $(this).attr("src");
-        var me = this;
-        var setImgSrc = function (src) {
-            console.log("SRC=" + src);
-            $(me).attr("src", src);
-        }
-        getImage(path, setImgSrc);
-    });
-
-    // somethin similar for handlin img 404s
-    // 1unnamed.jpg =>
-    //  http://localhost:3030/foowiki/page.html?uri=http://hyperdata.it/wiki/1unnamed.jpg&type=image
-    /*
+  // somethin similar for handlin img 404s
+  // 1unnamed.jpg =>
+  //  http://localhost:3030/foowiki/page.html?uri=http://hyperdata.it/wiki/1unnamed.jpg&type=image
+  /*
       $('div.content  img', object).each(
         function () {
             var src = $(this).attr("src");
@@ -229,203 +231,225 @@ function translateLinks(object) {
 }
 
 /**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function reviseHref(aElement) {
-    var oldHref = aElement.href;
-    console.log("PLDHREF");
-console.log(aElement.text+oldHref);
-    //   if (!aElement.text && (location.href == aElement.href)) { // both blank, insert index link
-    //        aElement.text = "Home Page";
-    //   }
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function reviseHref (aElement) {
+  var oldHref = aElement.href
+  console.log('PLDHREF')
+  console.log(aElement.text + oldHref)
+  //   if (!aElement.text && (location.href == aElement.href)) { // both blank, insert index link
+  //        aElement.text = "Home Page";
+  //   }
 
-    var linkText = aElement.text;
-    //    console.log("OFFSITEx"+linkText);
-    if (linkText) {
-        //   console.log("OFFSITEx"+linkText);
-        if (aElement.href.indexOf(FooWiki.serverRootPath) == -1) { // off site, less than perfect BROKEN
-            //      console.log("OFFSITE");
-            $(aElement).append(aElement.href); // use link as label
-            return;
-        }
-        if (location.href == oldHref) { // link href was blank
-          //  var before = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + FooWiki.serverRootPath + "page.html?uri=" + FooWiki.pagesBaseURI;
-
-//////////////////////////////////////////////////////////////////////////////
-
-            var ref = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + FooWiki.serverRootPath + "page.html?uri=" + linkText;
-            // was var ref = oldHref.substring(0, before.length) + linkText;
-
-// alert("PLANK REF"+aElement.href);
-        //    console.log("BLANK REF");
-          //  console.log(aElement.href);
-            return ref;
-        } else {
-            var localRef = oldHref.substring(oldHref.indexOf(FooWiki.serverRootPath) + FooWiki.serverRootPath.length);
-            return FooWiki.serverRootPath + "page.html?uri=" + FooWiki.pagesBaseURI + localRef;
-        }
+  var linkText = aElement.text
+  //    console.log("OFFSITEx"+linkText);
+  if (linkText) {
+    //   console.log("OFFSITEx"+linkText);
+    if (aElement.href.indexOf(FooWiki.serverRootPath) == -1) {
+      // off site, less than perfect BROKEN
+      //      console.log("OFFSITE");
+      $(aElement).append(aElement.href) // use link as label
+      return
     }
-    console.log("NEWHREF");
-    console.log(aElement.href);
-    includeContent(aElement);
-    return;
+    if (location.href == oldHref) {
+      // link href was blank
+      //  var before = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + FooWiki.serverRootPath + "page.html?uri=" + FooWiki.pagesBaseURI;
 
+      //////////////////////////////////////////////////////////////////////////////
 
+      var ref =
+        window.location.protocol +
+        '//' +
+        window.location.hostname +
+        ':' +
+        window.location.port +
+        FooWiki.serverRootPath +
+        'page.html?uri=' +
+        linkText
+      // was var ref = oldHref.substring(0, before.length) + linkText;
+
+      // alert("PLANK REF"+aElement.href);
+      //    console.log("BLANK REF");
+      //  console.log(aElement.href);
+      return ref
+    } else {
+      var localRef = oldHref.substring(
+        oldHref.indexOf(FooWiki.serverRootPath) + FooWiki.serverRootPath.length
+      )
+      return (
+        FooWiki.serverRootPath +
+        'page.html?uri=' +
+        FooWiki.pagesBaseURI +
+        localRef
+      )
+    }
+  }
+  console.log('NEWHREF')
+  console.log(aElement.href)
+  includeContent(aElement)
+  return
 }
 
-function redirectTo(target) {
-window.location.href = target;
-return false;
+function redirectTo (target) {
+  window.location.href = target
+  return false
 }
+
+
+  function hashCode(s) {
+    for (var h = 0, i = 0; i < s.length; h &= h)
+      h = 31 * h + s.charCodeAt(i++);
+    return Math.abs(h).toString(16);
+  }
 
 
 /**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function includeContent(aElement) {
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function includeContent (aElement) {
+  var oldHref = aElement.href
+  var localRef = oldHref.substring(
+    oldHref.indexOf(FooWiki.serverRootPath) + FooWiki.serverRootPath.length
+  )
+  //   var uri = FooWiki.serverRootPath + "page.html?uri=" + FooWiki.pagesBaseURI + localRef;
+  var uri = FooWiki.pagesBaseURI + localRef
 
-    var oldHref = aElement.href;
-    var localRef = oldHref.substring(oldHref.indexOf(FooWiki.serverRootPath) + FooWiki.serverRootPath.length);
-    //   var uri = FooWiki.serverRootPath + "page.html?uri=" + FooWiki.pagesBaseURI + localRef;
-    var uri = FooWiki.pagesBaseURI + localRef;
-
-
-    //  $(aElement).append("filler");
-    console.log("REF=" + aElement.href);
-console.log("REF=" + aElement.href);
-console.log("localRef =" + localRef );
-console.log("URI =" + uri );
-    var handler = function (pageMap, entryJSON) { // entryHandler(pageMap, entryJSON);
-        //        console.log("pageMap=" + JSON.stringify(pageMap));
-        //        console.log("CONTEN=" + JSON.stringify(entryJSON));
-        if (entryJSON && entryJSON[0] && entryJSON[0]["content"]) {
-            var content = formatContent(entryJSON[0]["content"]);
-        } else {
-            content = "<em>**undefined link**</em>";
-        }
-
-        $(aElement).replaceWith(content);
+  //  $(aElement).append("filler");
+  console.log('REF=' + aElement.href)
+  console.log('REF=' + aElement.href)
+  console.log('localRef =' + localRef)
+  console.log('URI =' + uri)
+  var handler = function (pageMap, entryJSON) {
+    // entryHandler(pageMap, entryJSON);
+    //        console.log("pageMap=" + JSON.stringify(pageMap));
+    //        console.log("CONTEN=" + JSON.stringify(entryJSON));
+    if (entryJSON && entryJSON[0] && entryJSON[0]['content']) {
+      var content = formatContent(entryJSON[0]['content'])
+    } else {
+      content = '<em>**undefined link**</em>'
     }
 
-    console.log("uri=" + uri);
-    getResource(uri, handler);
+    $(aElement).replaceWith(content)
+  }
 
+  console.log('uri=' + uri)
+  getResource(uri, handler)
 }
 
 /**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
- // little workaround for odd marked.js behaviour, at least in part due to marked.js line 793 regex
- // if the header is a link, the id ends up as "-like-this-like-this-"
-function fixHeaderIDs() {
-    $(".content h1, .content h2, .content h3, .content h4, .content h5, .content h6").each(function () {
-        var id = $(this).attr("id");
-        if (id) {
-            var length = id.length;
-            if (id[0] == "-" && id[length - 1] == "-") {
-                //      console.log("need to fix");
-                id = id.substring(1, length / 2);
-                $(this).attr("id", id);
-            }
-            //    console.log("ID = " + id);
-        }
-    });
-}
-
-/**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function escapeXml(markup) {
-    markup = markup.replace(/&/g, "&amp;");
-    markup = markup.replace(/</g, "&lt;");
-    markup = markup.replace(/>/g, "&gt;");
-    //  markup = escapeLiterals(markup);
-    return markup;
-}
-
-/**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function escapeRegExp(string) {
-    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-}
-
-/**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function replaceAll(string, find, replace) {
-    return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
-
-/**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function tweakBlockquotes(content) {
-    var blockquoteSplit = content.split("```");
-    if (blockquoteSplit.length > 1) {
-        for (var i = 1; i < blockquoteSplit.length; i = i + 2) {
-            //    console.log("X=" + blockquoteSplit[i]);
-            blockquoteSplit[i] = hUnescape(blockquoteSplit[i]);
-        }
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+// little workaround for odd marked.js behaviour, at least in part due to marked.js line 793 regex
+// if the header is a link, the id ends up as "-like-this-like-this-"
+function fixHeaderIDs () {
+  $(
+    '.content h1, .content h2, .content h3, .content h4, .content h5, .content h6'
+  ).each(function () {
+    var id = $(this).attr('id')
+    if (id) {
+      var length = id.length
+      if (id[0] == '-' && id[length - 1] == '-') {
+        //      console.log("need to fix");
+        id = id.substring(1, length / 2)
+        $(this).attr('id', id)
+      }
+      //    console.log("ID = " + id);
     }
-    return blockquoteSplit.join("```");
+  })
 }
 
 /**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function htmlUnescape(value) {
-
-    value = value.replace(/&lt;/g, "<");
-    value = value.replace(/&gt;/g, ">");
-    value = value.replace(/&quot;/g, "\"");
-    value = value.replace(/&amp;/g, "&");
-
-    return value;
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function escapeXml (markup) {
+  markup = markup.replace(/&/g, '&amp;')
+  markup = markup.replace(/</g, '&lt;')
+  markup = markup.replace(/>/g, '&gt;')
+  //  markup = escapeLiterals(markup);
+  return markup
 }
 
 /**
-* Comment template.
-* @param {string} foo This is a param with a description too long to fit in
-*     one line.
-* @return {number} This returns something that has a description too long to
-*     fit in one line.
-*/
-function hUnescape(value) {
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function escapeRegExp (string) {
+  return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1')
+}
 
-    var d = $("<div>");
-    d.html(value);
-    return d.text();
+/**
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function replaceAll (string, find, replace) {
+  return string.replace(new RegExp(escapeRegExp(find), 'g'), replace)
+}
+
+/**
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function tweakBlockquotes (content) {
+  var blockquoteSplit = content.split('```')
+  if (blockquoteSplit.length > 1) {
+    for (var i = 1; i < blockquoteSplit.length; i = i + 2) {
+      //    console.log("X=" + blockquoteSplit[i]);
+      blockquoteSplit[i] = hUnescape(blockquoteSplit[i])
+    }
+  }
+  return blockquoteSplit.join('```')
+}
+
+/**
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function htmlUnescape (value) {
+  value = value.replace(/&lt;/g, '<')
+  value = value.replace(/&gt;/g, '>')
+  value = value.replace(/&quot;/g, '"')
+  value = value.replace(/&amp;/g, '&')
+
+  return value
+}
+
+/**
+ * Comment template.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */
+function hUnescape (value) {
+  var d = $('<div>')
+  d.html(value)
+  return d.text()
 }

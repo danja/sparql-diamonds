@@ -9,6 +9,9 @@ Diamond APIs are application-agnostic, resource-specific
 
 ----
 
+        headers: {"Origin": "http://localhost", "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"},
+        
 
 http://tryhandlebarsjs.com/
 

@@ -5,8 +5,8 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n\
 PREFIX x:     <http://purl.org/stuff/>  \n\
 ";
 
-var bookmarksSparqlTemplate = commonPrefixes + " \n\
-SELECT DISTINCT * \n\
+var listBookmarksSparqlTemplate = commonPrefixes + " \n\
+SELECT DISTINCT ?bookmark ?url ?title ?created ?description ?nick ?tag\n\
 WHERE { \n\
     ?bookmark a x:Bookmark ; \n\
     x:url ?url . \n\
@@ -28,4 +28,5 @@ WHERE { \n\
     ?bookmark x:tag ?tag \n\
   } \n\
 } \n\
+ORDER BY ?created  \n\
 ";

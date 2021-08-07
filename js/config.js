@@ -7,3 +7,5 @@ var SparqlServer = {
   queryPath: '/bookmarks/sparql',
   updatePath: '/bookmarks/update',
 }
+
+var bookmarkBaseURI = "http://hyperdata.it/bookmarks/";

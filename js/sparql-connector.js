@@ -72,6 +72,27 @@ function getJsonForSparqlURL(pageURL, callback) {
  });
 }
 
+//  xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+function doInsert (endpoint, sparql) {
+    $.ajax({
+        type: "POST",
+        url: endpoint,
+        data: ({
+            update: sparql
+        })
+    }).done(function () {
+       
+           //  window.location.href = window.location.href.replace("edit.html", "page.html");
+
+
+    }).fail(function (e) {
+        alert("error doInsert"+JSON.stringify(e)); 
+    });
+}
+
+
+
 /**
  incomplete!!!
 

@@ -137,6 +137,7 @@ function templater(raw, replacementMap) {
 
     var result = template.render(replacementMap);
     return htmlUnescape(result); // why?
+    // Mustache spec : All variables are HTML escaped by default. If you want to return unescaped HTML, use the triple mustache: {{{name}}}.
 }
 
 /* parse URL */

@@ -26,7 +26,7 @@ function getJsonForSparqlURL(pageURL, callback) {
   });
  }
 
- function getResults(pageURL, callback) {
+ function doQuery(pageURL, callback) {
     $.ajax({
         url: pageURL,
         // accept: {

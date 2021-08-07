@@ -9,6 +9,12 @@ Diamond APIs are application-agnostic, resource-specific
 
 ----
 
+
+http://tryhandlebarsjs.com/
+
+https://mustache.github.io/mustache.5.html
+
+
 Approximately MVC
 
 Model : RDF globally, Javascript locally

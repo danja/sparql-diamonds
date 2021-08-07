@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <title>Bookmarks</title>
 
+    <link rel="stylesheet" href="../css/bookmarks.css" />
+
     <script src="../lib/jquery-3.6.0.min.js"></script>
 
     <!-- template engine -->
@@ -20,49 +22,67 @@
     <script src="../sparql-templates/bookmarks-common.js"></script>
     <script src="../sparql-templates/bookmarks-by-title.js"></script>
 
+    <script src="../html-templates/bookmarks-template.js"></script>
+    <!-- script src="../html-templates/link-template.js"></script -->
+
     <script type="text/javascript" language="javascript">
-      function makeList (linkArray) {
+      function makeList (bookmarks) {
+        var keys = Object.keys(bookmarks)
+
         var list = '<ul>'
 
-        for (var i = 0; i < linkArray.length; i++) {
-          console.log('linkArray[i] = ' + linkArray[i])
-          list += templater(bookmarksSparqlTemplate, linkArray[i])
+        for (var i = 0; i < keys.length; i++) {
+          console.log('bookmarks[i] = ' + JSON.stringify(bookmarks[keys[i]]))
+          list += templater(listBookmarksTemplate, bookmarks[keys[i]])
         }
 
         return list + '</ul>'
       }
 
+      // three ways of handling : the ID, single values, multiple values
+
       //   var resultsHandler = function (json) {
       function resultsHandler (json) {
-        console.log('RESULT = ' + JSON.stringify(json))
-//        console.log('RESULTS = ' + JSON.stringify(json['results']['bindings']))
+        // console.log('RESULT = ' + JSON.stringify(json))
+        //        console.log('RESULTS = ' + JSON.stringify(json['results']['bindings']))
         var bindings = json['results']['bindings']
-        var bookmarks = []
+
+        var bookmarks = {}
+        var currentBookmarkData
+
         for (var i = 0; i < bindings.length; i++) {
-          console.log('BINDING')
-          console.log(JSON.stringify(bindings[i]))
-           bookmarks.push({ link: bindings[i]['bookmark'] })
+          // effectively the ID field
+          var bookmarkURI = bindings[i]['bookmark']['value']
+
+          if (!(bookmarkURI in bookmarks)) {
+            currentBookmarkData = {}
+            bookmarks[bookmarkURI] = currentBookmarkData
+          }
+
+          var keys = Object.keys(bindings[i])
+
+          for (var j = 0; j < keys.length; j++) {
+            var key = keys[j]
+            if (key != 'bookmark') {
+              var value = bindings[i][key]['value']
+              //  console.log('value = '+JSON.stringify(value))
+              var values = currentBookmarkData[key]
+              if (!values) {
+                values = []
+              }
+              if (!values.includes(value)) {
+                // (value in values)
+                values.push(value)
+              }
+              currentBookmarkData[key] = values
+            }
+          }
         }
         console.log('bookmarks = ' + JSON.stringify(bookmarks))
-        // var list = makeList(json)
-        var list = makeList(bookmarks)
-        console.log('list = ' + list)
+        list = makeList(bookmarks)
+
         $('#bookmarks').replaceWith(list)
       }
-
-      /*
-      function doQuery (name) {
-        var dict = { name: name }
-        console.log('dict = ' + JSON.stringify(dict))
-        var wikidataNameSparql = templater(wikidataNameTemplate, dict)
-
-        console.log('wikidataNameSparql = ' + wikidataNameSparql)
-
-        var queryUrl =
-          host + encodeURIComponent(wikidataNameSparql) + '&output=json'
-        getResults(queryUrl, resultsHandler)
-      }
-      */
 
       function listByTitle () {
         // template on ORDER?
@@ -72,19 +92,19 @@
         var url =
           SparqlServer.host +
           SparqlServer.queryPath +
-          "?query=" +
+          '?query=' +
           encodeURIComponent(listBookmarksSparqlTemplate) +
-          '&output=json';
+          '&output=json'
 
-        getResults(url, resultsHandler)
+        doQuery(url, resultsHandler)
       }
 
       $(document).ready(function () {
-        // $('#submit-button').click(function () {
-        // console.log($('#wikidata-name').val())
-        //  doQuery($('#wikidata-name').val())
-        //})
-        listByTitle();
+        $('#submit-button').click(function () {
+          console.log($('#add-bookmark').val())
+          doSubmit($('#add-bookmark').val())
+        })
+        listByTitle()
       })
     </script>
   </head>
@@ -93,5 +113,22 @@
     <h2>Bookmarks</h2>
 
     <p id="bookmarks"></p>
+
+    <form id="add-bookmark">
+      <fieldset>
+        <legend>Add Bookmark</legend>
+        <label for="Link">Link</label>
+        <input id="link" type="text" />
+        <label for="title">Title</label>
+        <input id="title" type="text" />
+        <label for="description">Description</label>
+        <textarea class="description" id="description"></textarea> 
+        <label for="tags">Tags</label>
+        <input id="tags" type="text" />
+        <label for="nick">Creator</label>
+        <input id="nick" type="text" />
+      </fieldset>
+      <button type="button" id="submit-button">Submit</button>
+    </form>
   </body>
 </html>

@@ -47,11 +47,11 @@
 
         console.log('list = ' + list)
 
-        $('#links').replaceWith(list)
+        $('#links').replaceWith(list);
       }
 
       // does ajax and conversts results xml-json
-      getJsonForSparqlURL(queryUrl, resultsHandler);
+      doQuery(queryUrl, resultsHandler);
 
     </script>
   </head>

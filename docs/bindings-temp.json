@@ -2,7 +2,7 @@
     {
         "bookmark": {
             "type": "uri",
-            "value": "http://hyperdata.org/bookmarks/b1"
+            "value": "http://hyperdata.it/bookmarks/b1"
         },
         "url": {
             "type": "uri",
@@ -32,7 +32,7 @@
     {
         "bookmark": {
             "type": "uri",
-            "value": "http://hyperdata.org/bookmarks/b1"
+            "value": "http://hyperdata.it/bookmarks/b1"
         },
         "url": {
             "type": "uri",
@@ -62,7 +62,7 @@
     {
         "bookmark": {
             "type": "uri",
-            "value": "http://hyperdata.org/bookmarks/b1"
+            "value": "http://hyperdata.it/bookmarks/b1"
         },
         "url": {
             "type": "uri",

@@ -22,35 +22,40 @@
          ?link schema:name "Knot"@en . \n\
       }'
 
-      var linkTemplate = "<li><a link='~{link}~'>~{link}~</a></li>"
+      var linkTemplate = "<li><a href='~{link}~'>~{link}~</a></li>"
 
       var endpoint = 'https://query.wikidata.org/sparql?query='
 
       var queryUrl =
         endpoint + encodeURIComponent(wikidataKnotSparql) + '&output=json'
 
-      function makeList (linkArray) {
-        console.log("linkArray = "+JSON.stringify(linkArray));
+      function makeList (json) {
+        var bindings = json['results']['bindings'];
+        console.log("bindings = "+JSON.stringify(bindings));
+
         var list = '<ul>';
 
-        for (var i = 0; i < linkArray.length; i++) {
-          console.log("linkArray[i] = "+JSON.stringify(linkArray[i]));
-          list += templater(linkTemplate, linkArray[i]);
+        for (var i = 0; i < bindings.length; i++) {
+          var value = bindings[i]['link']['value'];
+          var pair = {link: value};
+          console.log("value = "+JSON.stringify(value));
+          list += templater(linkTemplate, {link: value});
         }
-
         return list + '</ul>'
       }
 
       function resultsHandler (json) {
         console.log('RESULT = ' + JSON.stringify(json))
 
-        var list = makeList(json)
+        var list = makeList(json);
 
         console.log('list = ' + list)
 
         $('#links').replaceWith(list);
+      
       }
 
+      console.log(wikidataKnotSparql);
       // does ajax and conversts results xml-json
       doQuery(queryUrl, resultsHandler);
 

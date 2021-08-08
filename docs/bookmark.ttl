@@ -4,7 +4,7 @@
 @prefix foaf:   <http://xmlns.com/foaf/0.1/> .
 @prefix x:     <http://purl.org/stuff/> .
 
-<http://hyperdata.org/bookmarks/b1>
+<http://hyperdata.it/bookmarks/b1>
       a x:Bookmark ;
       x:url <https://en.wikipedia.org/wiki/Exquisite_corpse> ;
       dc:created "2012-04-17T16:06:30Z" ;

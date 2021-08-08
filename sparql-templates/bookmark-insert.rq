@@ -5,7 +5,7 @@ PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
 PREFIX x:     <http://purl.org/stuff/> 
 
 INSERT DATA { 
-<http://hyperdata.org/bookmarks/b1>
+<http://hyperdata.it/bookmarks/b1>
       a x:Bookmark ;
       x:url <https://en.wikipedia.org/wiki/Exquisite_corpse> ;
       dc:created "2021-04-17T16:06:30Z" ;
@@ -17,7 +17,7 @@ INSERT DATA {
       x:tag "art" ;
       x:tag "game" .
 
-<http://hyperdata.org/bookmarks/b2>
+<http://hyperdata.it/bookmarks/b2>
       a x:Bookmark ;
       x:url <https://www.petzl.com/GB/en/Sport/Belay-Devices-And-Descenders/GRIGRI> ;
       dc:created "2021-045-18T17:07:31Z" ;

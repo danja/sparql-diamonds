@@ -1,5 +1,5 @@
 var x = {
-  bookmark: { type: 'uri', value: 'http://hyperdata.org/bookmarks/b1' },
+  bookmark: { type: 'uri', value: 'http://hyperdata.it/bookmarks/b1' },
   url: { type: 'uri', value: 'https://en.wikipedia.org/wiki/Exquisite_corpse' },
   title: { type: 'literal', value: 'Exquisite Corpse' },
   created: { type: 'literal', value: '2012-04-17T16:06:30Z' },
@@ -12,7 +12,7 @@ var x = {
 }
 
 var y = {
-  'http://hyperdata.org/bookmarks/b1': {
+  'http://hyperdata.it/bookmarks/b1': {
     url: 'https://en.wikipedia.org/wiki/Exquisite_corpse',
     title: 'Exquisite Corpse',
     created: '2012-04-17T16:06:30Z',
@@ -23,7 +23,7 @@ var y = {
 }
 
 var z = {
-  'http://hyperdata.org/bookmarks/b1': {
+  'http://hyperdata.it/bookmarks/b1': {
     url: ['https://en.wikipedia.org/wiki/Exquisite_corpse'],
     title: ['Exquisite Corpse'],
     created: ['2021-04-17T16:06:30Z'],
@@ -33,7 +33,7 @@ var z = {
   },
 
   
-  'http://hyperdata.org/bookmarks/b2': {
+  'http://hyperdata.it/bookmarks/b2': {
     url: [
       'https://www.petzl.com/GB/en/Sport/Belay-Devices-And-Descenders/GRIGRI'
     ],

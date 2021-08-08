@@ -42,6 +42,8 @@
         console.log('RESULT = ' + JSON.stringify(json))
         console.log('RESULTS = ' + JSON.stringify(json['results']['bindings']))
         var bindings = json['results']['bindings']
+
+        /*
         var links = []
         for (var i = 0; i < bindings.length; i++) {
           console.log('BINDING')
@@ -53,9 +55,10 @@
         var list = makeList(links)
         console.log('list = ' + list)
         $('#links').replaceWith(list)
+        */
       }
 
-      function doQuery (name) {
+      function run (name) {
         var dict = { name: name }
         console.log('dict = ' + JSON.stringify(dict))
         var wikidataNameSparql = templater(wikidataNameTemplate, dict)
@@ -73,7 +76,7 @@
       $(document).ready(function () {
         $('#submit-button').click(function () {
           console.log($('#wikidata-name').val())
-          doQuery($('#wikidata-name').val())
+          run($('#wikidata-name').val())
         })
       })
     </script>

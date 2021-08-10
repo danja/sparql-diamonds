@@ -26,26 +26,26 @@
     <!-- script src="../html-templates/link-template.js"></script -->
 
     <script type="text/javascript" language="javascript">
+      /* formats the JSON list of bookmarks into HTML */
       function makeList (bookmarks) {
         var keys = Object.keys(bookmarks)
 
         var list = '<ul>'
 
         for (var i = 0; i < keys.length; i++) {
-          console.log('bookmarks[i] = ' + JSON.stringify(bookmarks[keys[i]]))
           list += templater(listBookmarksTemplate, bookmarks[keys[i]])
         }
         return list + '</ul>'
       }
 
-      // three ways of handling : the ID, single values, multiple values
-
-      function resultsHandler (json) {
-        //    var bindings = json['results']['bindings']
+      /* restructures SPARQL results JSON to a shape that's
+      easier to insert into template */
+      function transformBookmarkJSON (json) {
         var bindings = json.results.bindings
         var bookmarks = {}
         var currentBookmarkData
 
+        // step through the results
         for (var i = 0; i < bindings.length; i++) {
           // effectively the ID field
           var bookmarkURI = bindings[i].bookmark.value
@@ -59,15 +59,14 @@
 
           for (var j = 0; j < keys.length; j++) {
             var key = keys[j]
+
             if (key != 'bookmark') {
               var value = bindings[i][key].value
-              //  console.log('value = '+JSON.stringify(value))
               var values = currentBookmarkData[key]
               if (!values) {
                 values = []
               }
               if (!values.includes(value)) {
-                // (value in values)
                 values.push(value)
               }
               currentBookmarkData[key] = values
@@ -75,18 +74,42 @@
           }
         }
 
-        //   var = moment(entry.modified).format("dddd, MMMM Do YYYY, h:mm:ss a");
+        var bookmarkURIs = Object.keys(bookmarks)
+
+        console.log('bookmarkURIs = ' + JSON.stringify(bookmarkURIs))
+
+        for (var i = 0; i < bookmarkURIs.length; i++) {
+          console.log('bookmarkURIs[i] = ' + JSON.stringify(bookmarkURIs[i]))
+
+          var createdISO = bookmarks[bookmarkURIs[i]].created
+
+          console.log('createdISO = ' + JSON.stringify(createdISO))
+
+          var createdFormatted = moment(createdISO).format(
+            'dddd, MMMM Do YYYY, h:mm:ss a'
+          )
+
+          console.log('createdFormattedJ = ' + JSON.stringify(createdFormatted))
+
+          bookmarks[bookmarkURIs[i]].created = [createdFormatted]
+
+          console.log('createdFormatted = ' + createdFormatted)
+        }
+        //
         console.log('bookmarks = ' + JSON.stringify(bookmarks))
+        return bookmarks
+      }
+
+      function resultsHandler (json) {
+        var bookmarks = transformBookmarkJSON(json)
+
+        // console.log('bookmarks = ' + JSON.stringify(bookmarks))
         var list = makeList(bookmarks)
 
-        $('#bookmarks').replaceWith(list)
+        $('#bookmarks').replaceWith(list) // inserts the bookmark list HTML into the page
       }
 
       function listBookmarks () {
-        // template on ORDER?
-
-        // templater(wikidataNameTemplate, dict)
-
         var url =
           SparqlServer.host +
           SparqlServer.queryPath +
@@ -98,34 +121,49 @@
       }
 
       function doSubmit () {
-        // SPECIAL CASE TAGS? CREATED
-
         // extract data from form
-        // default, starting point is { id: 'value'}
+        // default, starting point is a list of { id: 'value'}
         var bookmarkData = {}
+
         $('#fields :input').each(function (index, field) {
           //element is the specific field:
           bookmarkData[$(field).attr('id')] = $(field).val()
-          //  console.log($(field).attr('id'))
-          //  console.log($(field).val())
         })
 
-        // generate a URI for the bookmark
-        bookmarkData['bookmark'] =
-          bookmarkBaseURI + hashCode(bookmarkData['url'])
+        // Special Cases
 
-        bookmarkData['created'] = new Date().toISOString()
-        console.log(JSON.stringify(bookmarkData))
-        var addBookmarkSparql = templater(
-          addBookmarkSparqlTemplate,
+        // generate a URI for the bookmark
+        bookmarkData.bookmark = bookmarkBaseURI + hashCode(bookmarkData['url'])
+
+        bookmarkData.created = new Date().toISOString() // now
+
+        // rearrange tags, from :
+        // "tag1, tag2"
+        // to
+        // tags = [{"tag":"tag1"},{"tag":"tag2"}]
+        var tagArray = bookmarkData.tags.split(',') // convert to array
+        var tagList = []
+
+        for (var i = 0; i < tagArray.length; i++) {
+          var value = tagArray[i].trim() // remove whitespace
+          tagList.push({ tag: value })
+        }
+
+        bookmarkData.tags = tagList
+
+        //  console.log('tags = ' + JSON.stringify(bookmarkData.tags))
+
+        // put the data in the template
+        var insertBookmarkSparql = templater(
+          insertBookmarkSparqlTemplate,
           bookmarkData
         )
 
-        console.log(addBookmarkSparql)
+        // console.log(addBookmarkSparql)
 
         var url = SparqlServer.host + SparqlServer.updatePath
 
-        doInsert(url, addBookmarkSparql)
+        doInsert(url, insertBookmarkSparql)
       }
 
       function urlParam (name) {
@@ -143,6 +181,7 @@
         })
         listBookmarks()
 
+        // when called from bookmarklet (URL has a ?link=... parameter), extracts the link value
         var bookmarkletLink = urlParam('link')
         if (bookmarkletLink) {
           $('#url').val(decodeURIComponent(bookmarkletLink))

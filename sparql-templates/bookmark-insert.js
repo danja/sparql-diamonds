@@ -1,4 +1,6 @@
-var addBookmarkSparqlTemplate = commonPrefixes + "\n\
+var insertBookmarkSparqlTemplate =
+  commonPrefixes +
+  "\n\
 \n\
 INSERT DATA { \n\
 <~{bookmark}~> \n\
@@ -8,7 +10,10 @@ INSERT DATA { \n\
       dc:description '~{description}~' ; \n\
       dc:created '~{created}~' ; \n\
       foaf:maker \n\
-            [ foaf:nick '~{nick}~'] ; \n\
-      x:tag '~{tag}~' . \n\
+            [ foaf:nick '~{nick}~'] . \n\
+            \n\
+~{#tags}~  \n\
+<~{bookmark}~> x:tag '~{tag}~' . \n\
+~{/tags}~  \n\
 } \n\
-";
+"

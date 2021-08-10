@@ -1,0 +1,30 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX dc:   <http://purl.org/dc/terms/> 
+PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+PREFIX x:     <http://purl.org/stuff/> 
+
+INSERT DATA { 
+<http://hyperdata.it/bookmarks/b1>
+      a x:Bookmark ;
+      x:url <https://en.wikipedia.org/wiki/Exquisite_corpse> ;
+      dc:created "2021-04-17T16:06:30Z" ;
+      dc:title "Exquisite Corpse" ;
+      dc:description "Wikipedia page on a surrealist game" ;
+      foaf:maker
+            [ foaf:nick "danja"] ; 
+      x:tag "surrealism" ;
+      x:tag "art" ;
+      x:tag "game" .
+
+<http://hyperdata.it/bookmarks/b2>
+      a x:Bookmark ;
+      x:url <https://www.petzl.com/GB/en/Sport/Belay-Devices-And-Descenders/GRIGRI> ;
+      dc:created "2021-045-18T17:07:31Z" ;
+      dc:title "GriGri" ;
+      dc:description "Belay device with cam-assisted blocking" ;
+      foaf:maker
+            [ foaf:nick "danja"] ; 
+      x:tag "climbing" ;
+      x:tag "device" .     
+}

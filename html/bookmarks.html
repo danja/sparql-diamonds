@@ -41,16 +41,14 @@
       // three ways of handling : the ID, single values, multiple values
 
       function resultsHandler (json) {
-        // console.log('RESULT = ' + JSON.stringify(json))
-        //        console.log('RESULTS = ' + JSON.stringify(json['results']['bindings']))
-        var bindings = json['results']['bindings']
-
+        //    var bindings = json['results']['bindings']
+        var bindings = json.results.bindings
         var bookmarks = {}
         var currentBookmarkData
 
         for (var i = 0; i < bindings.length; i++) {
           // effectively the ID field
-          var bookmarkURI = bindings[i]['bookmark']['value']
+          var bookmarkURI = bindings[i].bookmark.value
 
           if (!(bookmarkURI in bookmarks)) {
             currentBookmarkData = {}
@@ -62,7 +60,7 @@
           for (var j = 0; j < keys.length; j++) {
             var key = keys[j]
             if (key != 'bookmark') {
-              var value = bindings[i][key]['value']
+              var value = bindings[i][key].value
               //  console.log('value = '+JSON.stringify(value))
               var values = currentBookmarkData[key]
               if (!values) {
@@ -76,6 +74,8 @@
             }
           }
         }
+
+        //   var = moment(entry.modified).format("dddd, MMMM Do YYYY, h:mm:ss a");
         console.log('bookmarks = ' + JSON.stringify(bookmarks))
         var list = makeList(bookmarks)
 
@@ -97,38 +97,56 @@
         doQuery(url, resultsHandler)
       }
 
-      function doSubmit () { // SPECIAL CASE TAGS? CREATED
+      function doSubmit () {
+        // SPECIAL CASE TAGS? CREATED
 
         // extract data from form
         // default, starting point is { id: 'value'}
-        var bookmarkData = {};
+        var bookmarkData = {}
         $('#fields :input').each(function (index, field) {
           //element is the specific field:
-          bookmarkData[$(field).attr('id')] =  $(field).val();
-        //  console.log($(field).attr('id'))
-        //  console.log($(field).val())
-        });
+          bookmarkData[$(field).attr('id')] = $(field).val()
+          //  console.log($(field).attr('id'))
+          //  console.log($(field).val())
+        })
 
         // generate a URI for the bookmark
-        bookmarkData['bookmark'] =  bookmarkBaseURI + hashCode(bookmarkData['url']);
+        bookmarkData['bookmark'] =
+          bookmarkBaseURI + hashCode(bookmarkData['url'])
 
-        bookmarkData['created'] = (new Date()).toISOString();
-        console.log(JSON.stringify(bookmarkData));
-        var addBookmarkSparql = templater(addBookmarkSparqlTemplate, bookmarkData);
+        bookmarkData['created'] = new Date().toISOString()
+        console.log(JSON.stringify(bookmarkData))
+        var addBookmarkSparql = templater(
+          addBookmarkSparqlTemplate,
+          bookmarkData
+        )
 
         console.log(addBookmarkSparql)
 
-        var url = SparqlServer.host + SparqlServer.updatePath;
+        var url = SparqlServer.host + SparqlServer.updatePath
 
-        doInsert(url, addBookmarkSparql);
+        doInsert(url, addBookmarkSparql)
+      }
+
+      function urlParam (name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(
+          window.location.search
+        )
+        return results !== null ? results[1] || 0 : false
       }
 
       $(document).ready(function () {
         $('#submit-button').click(function () {
           console.log($('#add-bookmark').val())
           doSubmit($('#add-bookmark').val())
+          location.reload()
         })
-        listBookmarks();
+        listBookmarks()
+
+        var bookmarkletLink = urlParam('link')
+        if (bookmarkletLink) {
+          $('#url').val(decodeURIComponent(bookmarkletLink))
+        }
       })
     </script>
   </head>
@@ -148,9 +166,9 @@
         <label for="description">Description</label>
         <textarea class="description" id="description">this is b3</textarea>
         <label for="tags">Tags</label>
-        <input id="tags" type="text" value="tag1, tag2"/>
+        <input id="tags" type="text" value="tag1, tag2" />
         <label for="nick">Creator</label>
-        <input id="nick" type="text" value="danja"/>
+        <input id="nick" type="text" value="danja" />
       </fieldset>
       <button type="button" id="submit-button">Submit</button>
     </form>

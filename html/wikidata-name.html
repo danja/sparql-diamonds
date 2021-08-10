@@ -37,46 +37,35 @@
         return list + '</ul>'
       }
 
-      //   var resultsHandler = function (json) {
       function resultsHandler (json) {
-        console.log('RESULT = ' + JSON.stringify(json))
-        console.log('RESULTS = ' + JSON.stringify(json['results']['bindings']))
-        var bindings = json['results']['bindings']
+        var bindings = json.results.bindings
 
-        /*
         var links = []
         for (var i = 0; i < bindings.length; i++) {
-          console.log('BINDING')
-          console.log(bindings[i]['link']['value'])
-          links.push({ link: bindings[i]['link']['value'] })
+          links.push({ link: bindings[i].link.value })
         }
-        console.log('links = ' + JSON.stringify(links))
-        // var list = makeList(json)
+
         var list = makeList(links)
-        console.log('list = ' + list)
         $('#links').replaceWith(list)
-        */
       }
 
-      function run (name) {
+      function submit (name) {
         var dict = { name: name }
-        console.log('dict = ' + JSON.stringify(dict))
+
         var wikidataNameSparql = templater(wikidataNameTemplate, dict)
 
         console.log('wikidataNameSparql = ' + wikidataNameSparql)
 
         var url =
-          //  endpoint + encodeURIComponent(wikidataNameSparql) + '&output=xml'
           endpoint + encodeURIComponent(wikidataNameSparql) + '&output=json'
-        // does ajax and passes results json to handler
-        // getJsonForSparqlURL(queryUrl, resultsHandler);
+
         doQuery(url, resultsHandler)
       }
 
       $(document).ready(function () {
         $('#submit-button').click(function () {
           console.log($('#wikidata-name').val())
-          run($('#wikidata-name').val())
+          submit($('#wikidata-name').val())
         })
       })
     </script>

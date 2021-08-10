@@ -30,16 +30,18 @@
         endpoint + encodeURIComponent(wikidataKnotSparql) + '&output=json'
 
       function makeList (json) {
-        var bindings = json['results']['bindings'];
-        console.log("bindings = "+JSON.stringify(bindings));
+        // var bindings = json['results']['bindings'];
+        var bindings = json.results.bindings
+        console.log('bindings = ' + JSON.stringify(bindings))
 
-        var list = '<ul>';
+        var list = '<ul>'
 
         for (var i = 0; i < bindings.length; i++) {
-          var value = bindings[i]['link']['value'];
-          var pair = {link: value};
-          console.log("value = "+JSON.stringify(value));
-          list += templater(linkTemplate, {link: value});
+          //  var value = bindings[i]['link']['value'];
+          var value = bindings[i].link.value
+          var pair = { link: value }
+          console.log('value = ' + JSON.stringify(value))
+          list += templater(linkTemplate, { link: value })
         }
         return list + '</ul>'
       }
@@ -47,18 +49,16 @@
       function resultsHandler (json) {
         console.log('RESULT = ' + JSON.stringify(json))
 
-        var list = makeList(json);
+        var list = makeList(json)
 
         console.log('list = ' + list)
 
-        $('#links').replaceWith(list);
-      
+        $('#links').replaceWith(list)
       }
 
-      console.log(wikidataKnotSparql);
-      // does ajax and conversts results xml-json
-      doQuery(queryUrl, resultsHandler);
+      console.log(wikidataKnotSparql)
 
+      doQuery(queryUrl, resultsHandler)
     </script>
   </head>
 

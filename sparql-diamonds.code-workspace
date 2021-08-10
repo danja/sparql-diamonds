@@ -10,5 +10,7 @@
 			"path": "../danja.github.io/tutorials/browser-sparql-apps"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "sparql-diamonds"
+	}
 }

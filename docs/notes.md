@@ -6,9 +6,13 @@ Typical APIs are application-specific, resource-agnostic
 
 Diamond APIs are application-agnostic, resource-specific
 
+----
+
+Apache Jena Fuseki is a SPARQL server.
+https://jena.apache.org/documentation/fuseki2/
 
 
-
+https://github.com/danja/sparql-diamonds
 
 ----
 

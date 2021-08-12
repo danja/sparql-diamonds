@@ -34,7 +34,7 @@ _detailed status can be found in [devlog.md](devlog.md)_
 - Point a Web server at the html directory
 - Open the corresponding URL in a Web browser
 
-**Note to self - might these work on a github.io page?**
+_Note to self - might these work on a github.io page?_
 
 **Bookmarks**
 

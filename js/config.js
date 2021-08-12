@@ -5,7 +5,9 @@
 var SparqlServer = {
   host: 'http://localhost:3333',
   queryPath: '/bookmarks/sparql',
-  updatePath: '/bookmarks/update',
+  updatePath: '/bookmarks/update'
 }
 
-var bookmarkBaseURI = "http://hyperdata.it/bookmarks/";
+/* used in the RDF, not dereferenced here */
+
+var bookmarkBaseURI = 'http://hyperdata.it/bookmarks/'

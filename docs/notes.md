@@ -7,6 +7,9 @@ Typical APIs are application-specific, resource-agnostic
 Diamond APIs are application-agnostic, resource-specific
 
 
+
+
+
 ----
 
         headers: {"Origin": "http://localhost", "Access-Control-Allow-Origin": "*",

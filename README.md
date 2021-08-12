@@ -1,6 +1,6 @@
 # Sparql Diamonds
 
-These are small demos of an architectural pattern for rapid development of data-driven applications as described in the [SPARQL Diamonds paper](https://github.com/danja/sparql-diamonds/blob/main/docs/paper.pdf) (pdf).
+These are small demos of an architectural pattern that can be useful for rapid development of data-driven applications.
 
 The demos are designed to operate against a SPARQL server with query construction and result formatting carried out in browser Javascript.
 

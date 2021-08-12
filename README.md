@@ -1,12 +1,20 @@
 # Sparql Diamonds
 
-*A Simple Architecture for SPARQL-based Applications*
+These are small demos of an architectural pattern for rapid development of data-driven applications as described in the [SPARQL Diamonds paper](https://github.com/danja/sparql-diamonds/blob/main/docs/paper.pdf) (pdf).
+
+The demos are designed to operate against a SPARQL server with query construction and result formatting carried out in browser Javascript.
+
+![SPARQL Diamond](https://github.com/danja/sparql-diamonds/raw/main/docs/images/diamond.png)
+
+Three demos are currently available :
+
+- **wikidata-knot** - shows how to pull data from Wikidata using a fixed query, and display the results in a Web page
+
+* **wikidata-name** - as above, but with a query variable supplied by te user
+* **bookmarks** - a simple Web link bookmarking system
 
 ## Status
 
-Detailed status can be found in [devlog.md](devlog.md)
+**2021-08-12** : three demos functional
 
-**2021-07-04**
-
-
-
+_detailed status can be found in [devlog.md](devlog.md)_

@@ -10,15 +10,15 @@ Three demos are currently available :
 
 **wikidata-knot** - shows how to pull data from Wikidata using a fixed query, and display the results in a Web page
 
-![Wikidata things named Knot](https://github.com/danja/sparql-diamonds/raw/main/docs/images/things-named-knot.png)
+![Wikidata things named Knot](https://github.com/danja/sparql-diamonds/raw/main/docs/images/things-named-knot-shaded.png)
 
 **wikidata-name** - as above, but with a query variable supplied by the user
 
-![Wikidata named things](https://github.com/danja/sparql-diamonds/raw/main/docs/images/wikidata-named-things.png)
+![Wikidata named things](https://github.com/danja/sparql-diamonds/raw/main/docs/images/wikidata-named-things-shaded.png)
 
 **bookmarks** - a simple Web link bookmarking system
 
-![bookmarks](https://github.com/danja/sparql-diamonds/raw/main/docs/images/bookmarks-screenshot.png)
+![bookmarks](https://github.com/danja/sparql-diamonds/raw/main/docs/images/bookmarks-screenshot-shaded.png)
 
 ## Status
 

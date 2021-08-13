@@ -23,7 +23,6 @@
     <script src="../sparql-templates/bookmark-insert.js"></script>
 
     <script src="../html-templates/bookmarks-template.js"></script>
-    <!-- script src="../html-templates/link-template.js"></script -->
 
     <script type="text/javascript" language="javascript">
       /* formats the JSON list of bookmarks into HTML */
@@ -130,7 +129,7 @@
           bookmarkData[$(field).attr('id')] = $(field).val()
         })
 
-        console.log('BOOKMARKDATA = ' + JSON.stringify(bookmarkData))
+        // console.log('bookmarkData = ' + JSON.stringify(bookmarkData))
 
         // Special Cases
 
@@ -153,7 +152,9 @@
 
         bookmarkData.tags = tagList
 
-        //  console.log('tags = ' + JSON.stringify(bookmarkData.tags))
+        console.log('tags = ' + JSON.stringify(bookmarkData.tags))
+
+        console.log('bookmarkData = ' + JSON.stringify(bookmarkData))
 
         // put the data in the template
         var insertBookmarkSparql = templater(

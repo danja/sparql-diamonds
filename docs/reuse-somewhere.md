@@ -1,3 +1,9 @@
 Services on the Web have a fairly convoluted history. The early RPC and SOAP approaches which largely wrapped object-oriented programming constructs in HTTP messages seem incongruous today. The REST architectural style is generally accepted as the most appropriate way of using HTTP. In this view, linked HTML document delivery, the most common use of the Web, is just a specific kind of service.
 Most modern data-oriented Web services generally adhere to REST, with payloads from client to server delivered either as HTML form-encoded strings or data structures represented in JSON (Javascript Object Notation) [ref] and the material returned typically again JSON. 
 As a practical approach this has much to recommend it. Where it is lacking is in the more general notion of the Web. The data represented in JSON will typically be defined in terms of the application, specific to each and every service endpoint. The Web does facilitate a means of expressing data in a global context, through the use of URLs as identifiers. RDF can provide a global model through which relationships between resources can be expressed.
+
+Conceptually, the Semantic Web is the same as the Web, broadened in scope. In practice, the emphasis is less on presentation of information than the information itself. Presentation is clearly critical to an information system, without good user interaction such a system fails. Lifting the Web to take advantage of all disciplines is a worthy goal.
+Developing a useful or profitable Web site is challenging. 
+Again, in practice, where a site or API developer may produce a very streamlined communication between the client and server, this is often a narrow shared model between a particular service and dedicated clients. Traditionally they have been aligned towards HTML documents, occasional out-of-band features (such as money transfer) as an extra. It may be argued that this is missing the whole point of the Web as a shared information space.
+
+

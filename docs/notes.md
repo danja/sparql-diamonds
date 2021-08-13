@@ -1,5 +1,37 @@
 # Random Notes - ignore
 
+1 semweb nature
+
+2 https://httpwg.org/specs/ HTTP Documentation : IETF RFCs and IANA registries
+
+3 linked data
+
+4 SPARQL 1.1 specifications [https://www.w3.org/TR/sparql11-query/]
+
+5 https://github.com/danja/sparql-diamonds
+
+6 https://www.w3.org/TR/sparql11-protocol/
+
+7 https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm
+
+8 CORS
+
+9 jQuery
+
+10 Mustache
+
+11 Hogan
+
+12 Wikidata Query Service
+
+13 JSON trans
+
+14 sparql json trans
+
+ {"url":"https://www.w3.org/TR/sparql11-update/","title":"b3","description":"this is b3"
+        
+        
+
 Something like :
 
 Typical APIs are application-specific, resource-agnostic
@@ -14,6 +46,9 @@ https://jena.apache.org/documentation/fuseki2/
 
 https://github.com/danja/sparql-diamonds
 
+https://www.w3.org/TR/sparql11-protocol/
+
+Cross-Origin Resource Sharing
 ----
 
         headers: {"Origin": "http://localhost", "Access-Control-Allow-Origin": "*",

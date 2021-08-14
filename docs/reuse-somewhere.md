@@ -6,4 +6,8 @@ Conceptually, the Semantic Web is the same as the Web, broadened in scope. In pr
 Developing a useful or profitable Web site is challenging. 
 Again, in practice, where a site or API developer may produce a very streamlined communication between the client and server, this is often a narrow shared model between a particular service and dedicated clients. Traditionally they have been aligned towards HTML documents, occasional out-of-band features (such as money transfer) as an extra. It may be argued that this is missing the whole point of the Web as a shared information space.
 
+The approach could potentially be used to create content-delivery sites with the same general functionality as typical database-backed systems. But it is felt that it particularly lends itself to rapid prototyping and the enhancement of existing Web pages with 3rd party information.     
+
+The fundamental motivation for the Web was the sharing of information, but a prerequisite of this is the intelligent management of information. The notion of a personal knowledgebase has often been discussed, but implementations tend to lack the opportunity to (selectively) share such information. Again, the combination of global identifiers for resources on the Web with a means to express relationships between them in the same language has huge potential.
+The demonstration to be described is a minimal system that could form the basis of such lofty goals. 
 

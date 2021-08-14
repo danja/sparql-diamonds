@@ -11,3 +11,15 @@ The approach could potentially be used to create content-delivery sites with the
 The fundamental motivation for the Web was the sharing of information, but a prerequisite of this is the intelligent management of information. The notion of a personal knowledgebase has often been discussed, but implementations tend to lack the opportunity to (selectively) share such information. Again, the combination of global identifiers for resources on the Web with a means to express relationships between them in the same language has huge potential.
 The demonstration to be described is a minimal system that could form the basis of such lofty goals. 
 
+
+But two particular phenomena may confuse the developer:
+Firstly, while the HTTP protocol is clear when it comes to the media types requested and those of the content actually delivered (generally through Accept: and Content-Type: headers), certain systems such as proxies may not respect these fully. As a workaround it is common to see a query URL having an extra parameter, for example:
+
+http://example.org/sparql?output=json&query=’…’
+
+While inelegant and redundant, the output=json parameter is an extra hint to the server of what format results are required.
+The second point of note is an issue that can crop up with any Web services , CORS (Cross-Origin Resource Sharing) [8], a security mechanism through which a browser and server negotiate the allowed origins of resources to load. Even if the Web server and SPARQL server engaged in SPARQL Diamond-style operations are on the same host, the difference in port for each may cause immediate failure at the browser. The solution is a straightforward addition of headers (this is covered by default in the Fuseki SPARQL server used for the bookmarks demo here, but foreknowledge can save a lot of developer time).    
+
+
+
+

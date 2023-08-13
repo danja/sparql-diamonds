@@ -50,7 +50,7 @@ FOAF ('Friend of a Friend') FOAF Vocabulary Specification, Miller & Brickley 201
 
 19 W3C Wiki, Comparison of RDFJS libraries. https://www.w3.org/community/rdfjs/wiki/Comparison_of_RDFJS_libraries
 
-20 React
+20 Reacthttps://reactjs.org/
 A JavaScript library for building user interfaces
 
 21 Seki, SPARQL server midleware. https://github.com/danja/seki

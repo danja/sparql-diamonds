@@ -1,3 +1,10 @@
+**2021-09-13**
+
+About to install on new server - hyperdata.it
+
+https://github.com/apache/jena/tree/main/jena-fuseki2/apache-jena-fuseki
+
+
 **2021-07-15**
 
 TODO

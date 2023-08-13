@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Wikidata named things</title>
+
+    <script src="js/lib/jquery-3.6.0.min.js"></script>
+
+    <!-- template engine -->
+    <script src="js/lib/hogan-3.0.2.js"></script>
+
+    <script src="js/utils.js"></script>
+    <script src="js/sparql-connector.js"></script>
+
+    <script type="text/javascript" language="javascript">
+      var wikidataNameTemplate =
+        '\n\
+           PREFIX schema: <http://schema.org/>  \n\
+           \n\
+           SELECT DISTINCT ?link WHERE { \n\
+           \n\
+           ?link schema:name "~{name}~"@en . \n\
+        }'
+
+      var bookmarkQT = function (name) {
+        return `
+           PREFIX schema: <http://schema.org/>
+
+           SELECT DISTINCT ?link WHERE {
+
+           ?link schema:name "${name}"@en .
+        }`
+      }
+
+      var linkTemplate = "<li><a href='~{link}~'>~{link}~</a></li>"
+
+      var linkHT = function (link) {
+        return `<li><a href='${link}'>${link}</a></li>`
+      }
+
+      var endpoint = 'https://query.wikidata.org/sparql?query='
+
+      function makeList (linkArray) {
+        var list = '<ul>'
+
+        for (var i = 0; i < linkArray.length; i++) {
+          console.log('linkArray[i] = ' + JSON.stringify(linkArray[i]))
+          //    list += templater(linkTemplate, linkArray[i])
+          list += linkHT(linkArray[i].link)
+        }
+
+        return list + '</ul>'
+      }
+
+      function resultsHandler (json) {
+        var bindings = json.results.bindings
+
+        var links = []
+        for (var i = 0; i < bindings.length; i++) {
+          links.push({ link: bindings[i].link.value })
+        }
+
+        var list = makeList(links)
+        $('#links').replaceWith(list)
+      }
+
+      function submit (name) {
+        var dict = { name: name }
+
+        //    var wikidataNameSparql = templater(wikidataNameTemplate, dict)
+        var wikidataNameSparql = bookmarkQT(name)
+
+        console.log('wikidataNameSparql = ' + wikidataNameSparql)
+
+        var url =
+          endpoint + encodeURIComponent(wikidataNameSparql) + '&output=json'
+
+        doQuery(url, resultsHandler)
+      }
+
+      $(document).ready(function () {
+        $('#submit-button').click(function () {
+          console.log($('#wikidata-name').val())
+          submit($('#wikidata-name').val())
+        })
+      })
+    </script>
+  </head>
+
+  <body>
+    <h2>Wikidata named things</h2>
+
+    <form id="name-form">
+      <label>Name:</label>
+      <input type="text" id="wikidata-name" />
+      <button type="button" id="submit-button">Submit</button>
+    </form>
+
+    <p id="links"></p>
+  </body>
+</html>
